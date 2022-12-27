@@ -8,7 +8,8 @@
         "airbnb/hooks",
         "airbnb-typescript",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
     ],
     "overrides": [
     ],
@@ -16,11 +17,12 @@
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "project": "Syllabus-NEU/tsconfig.json"
+        "project": "./tsconfig.json"
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "prettier"
     ],
     "rules": {
         "react/react-in-jsx-scope": 0,
