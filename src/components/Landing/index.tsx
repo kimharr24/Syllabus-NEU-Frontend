@@ -9,7 +9,7 @@ const Landing: React.FC = () => {
             <div
                 style={{
                     backgroundImage: `url(${Waves})`,
-                    aspectRatio: '960/300',
+                    aspectRatio: '960/150',
                     width: '100%',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
