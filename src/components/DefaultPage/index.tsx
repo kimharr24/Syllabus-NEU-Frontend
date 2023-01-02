@@ -1,10 +1,13 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import HomeContent from '../HomeContent';
 import { BODY_BACKGROUND_COLOR } from '../../utils/colors';
 import WaveSVG from '../../assets/layered-waves.svg';
 
-const Landing: React.FC = () => {
+interface DefaultPageProps {
+    children: React.ReactNode;
+}
+
+const DefaultPage: React.FC<DefaultPageProps> = ({ children }) => {
     return (
         <Box sx={{ backgroundColor: BODY_BACKGROUND_COLOR, height: '100vh' }}>
             <div
@@ -16,10 +19,10 @@ const Landing: React.FC = () => {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}>
-                <HomeContent />
+                {children}
             </div>
         </Box>
     );
 };
 
-export default Landing;
+export default DefaultPage;
