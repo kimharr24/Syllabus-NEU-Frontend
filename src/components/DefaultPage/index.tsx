@@ -18,6 +18,7 @@ const DefaultPage: React.FC<DefaultPageProps> = ({ children }) => {
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
+                    position: 'absolute',
                 }}>
                 {children}
             </div>
