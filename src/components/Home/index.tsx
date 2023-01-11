@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Box, Stack, Typography } from '@mui/material';
 import Hero from '../../assets/hero-image.png';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../utils/colors';
+import Search from '../Search';
 
 const HeroImageContainer = styled(Box)`
     background-image: url('${Hero}');
@@ -15,12 +16,7 @@ const HeroImageContainer = styled(Box)`
 const HeroContentContainer = styled(Stack)`
     margin-top: 25.5rem;
     margin-left: 16rem;
-    flex-direction: column;
-`;
-
-const SyllabusNEUContainer = styled(Stack)`
-    font-weight: 400;
-    letter-spacing: 0.15rem;
+    width: fit-content;
 `;
 
 const Home: React.FC = () => {
@@ -28,12 +24,12 @@ const Home: React.FC = () => {
         <main>
             <HeroImageContainer>
                 <HeroContentContainer>
-                    <SyllabusNEUContainer direction='row'>
+                    <Stack direction='row'>
                         <Typography
                             variant='h2'
                             sx={{
                                 color: PRIMARY_COLOR,
-                                marginRight: '0.5rem',
+                                marginRight: '0.7rem',
                             }}>
                             Syllabus
                         </Typography>
@@ -42,7 +38,8 @@ const Home: React.FC = () => {
                             sx={{ color: SECONDARY_COLOR }}>
                             NEU
                         </Typography>
-                    </SyllabusNEUContainer>
+                    </Stack>
+                    <Search />
                 </HeroContentContainer>
             </HeroImageContainer>
         </main>
