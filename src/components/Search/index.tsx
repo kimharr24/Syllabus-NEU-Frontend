@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box } from '@mui/material';
+import styled from 'styled-components';
+import { Paper } from '@mui/material';
+import ToggleButtonGroup from '../ToggleButtonGroup';
+
+const SearchForm = styled(Paper)`
+    && {
+        background-color: transparent;
+        border-radius: 10px;
+    }
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+`;
 
 const Search: React.FC = () => {
     const syllabusCountPlaceholder = 25;
@@ -13,18 +24,9 @@ const Search: React.FC = () => {
     }, []);
 
     return (
-        <Box>
-            <Box sx={{ width: '30vw' }}>
-                <Typography
-                    variant='body1'
-                    sx={{ color: 'white', marginTop: '1rem' }}>
-                    {`Browse Syllabus NEU's collection of over ${syllabusCount}+ 
-                      syllabi belonging to classes ranging from journalism to quantum physics
-                      offered at Northeastern University. Syllabus NEU was designed and developed
-                      by students, for students.`}
-                </Typography>
-            </Box>
-        </Box>
+        <SearchForm elevation={12}>
+            <ToggleButtonGroup />
+        </SearchForm>
     );
 };
 
