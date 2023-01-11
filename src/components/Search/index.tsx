@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Paper } from '@mui/material';
-import SearchButtonGroup from '../SearchButtonGroup';
+import ToggleButtonGroup from '../ToggleButtonGroup';
 
 const SearchForm = styled(Paper)`
     && {
         background-color: transparent;
+        border-radius: 10px;
     }
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
 `;
 
 const Search: React.FC = () => {
@@ -22,7 +25,7 @@ const Search: React.FC = () => {
 
     return (
         <SearchForm elevation={12}>
-            <SearchButtonGroup />
+            <ToggleButtonGroup />
         </SearchForm>
     );
 };
