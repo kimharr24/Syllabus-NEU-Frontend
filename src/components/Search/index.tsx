@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { Paper } from '@mui/material';
 import ToggleButtonGroup from '../ToggleButtonGroup';
 
+interface SearchFormProps {
+    setSelectedColor: (color: string) => void;
+}
+
 const SearchForm = styled(Paper)`
     && {
         background-color: transparent;
@@ -12,7 +16,7 @@ const SearchForm = styled(Paper)`
     padding: 0.5rem 1rem;
 `;
 
-const Search: React.FC = () => {
+const Search: React.FC<SearchFormProps> = ({ setSelectedColor }) => {
     const syllabusCountPlaceholder = 25;
     const [syllabusCount, setSyllabusCount] = useState<number>(
         syllabusCountPlaceholder,
@@ -25,7 +29,7 @@ const Search: React.FC = () => {
 
     return (
         <SearchForm elevation={12}>
-            <ToggleButtonGroup />
+            <ToggleButtonGroup setSelectedColor={setSelectedColor} />
         </SearchForm>
     );
 };

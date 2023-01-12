@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography, Button } from '@mui/material';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../../utils/colors';
+import { Typography, Button, Box } from '@mui/material';
+import { SECONDARY_COLOR } from '../../../utils/colors';
 import { ToggleButtonState } from '../../../assets/ToggleButtonState';
 
 interface ToggleButtonProps {
@@ -9,11 +9,16 @@ interface ToggleButtonProps {
     actualToggleButtonState: ToggleButtonState;
     expectedToggleButtonState: ToggleButtonState;
     icon: React.ReactNode;
+    color: string;
     setToggleButtonState: (state: ToggleButtonState) => void;
+    setSelectedColor: (selectedColor: string) => void;
 }
 
 const ToggleButtonText = styled(Typography)`
     color: ${SECONDARY_COLOR};
+    && {
+        font-size: 1rem;
+    }
 `;
 
 const ToggleButton: React.FC<ToggleButtonProps> = ({
@@ -21,14 +26,16 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
     actualToggleButtonState,
     expectedToggleButtonState,
     icon,
+    color,
     setToggleButtonState,
+    setSelectedColor,
 }) => {
     return (
-        <div
+        <Box
             style={{
                 borderBottom: `${
                     actualToggleButtonState === expectedToggleButtonState
-                        ? `3px solid ${PRIMARY_COLOR}`
+                        ? `3px solid ${color}`
                         : 'none'
                 }`,
             }}>
@@ -36,10 +43,13 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
                 variant='text'
                 startIcon={icon}
                 disableRipple
-                onClick={() => setToggleButtonState(expectedToggleButtonState)}>
+                onClick={() => {
+                    setToggleButtonState(expectedToggleButtonState);
+                    setSelectedColor(color);
+                }}>
                 <ToggleButtonText variant='button'>{children}</ToggleButtonText>
             </Button>
-        </div>
+        </Box>
     );
 };
 

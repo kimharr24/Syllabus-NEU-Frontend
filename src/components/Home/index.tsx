@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import Hero from '../../assets/hero-image.png';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../utils/colors';
-import Search from '../Search';
+import HomeContent from '../HomeContent';
 
 const HeroImageContainer = styled(Box)`
     background-image: url('${Hero}');
@@ -24,22 +23,7 @@ const Home: React.FC = () => {
         <main>
             <HeroImageContainer>
                 <HeroContentContainer>
-                    <Stack direction='row'>
-                        <Typography
-                            variant='h2'
-                            sx={{
-                                color: PRIMARY_COLOR,
-                                marginRight: '0.7rem',
-                            }}>
-                            Syllabus
-                        </Typography>
-                        <Typography
-                            variant='h2'
-                            sx={{ color: SECONDARY_COLOR }}>
-                            NEU
-                        </Typography>
-                    </Stack>
-                    <Search />
+                    <HomeContent />
                 </HeroContentContainer>
             </HeroImageContainer>
         </main>
