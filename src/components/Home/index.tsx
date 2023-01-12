@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Box, Stack } from '@mui/material';
-import Hero from '../../assets/hero-image.png';
+import Hero from '../../assets/hero-image.jpg';
 import HomeContent from '../HomeContent';
 
 const HeroImageContainer = styled(Box)`
@@ -13,9 +13,9 @@ const HeroImageContainer = styled(Box)`
 `;
 
 const HeroContentContainer = styled(Stack)`
-    margin-top: 25.5rem;
+    margin-top: 29rem;
     margin-left: 16rem;
-    width: fit-content;
+    width: 36vw;
 `;
 
 const Home: React.FC = () => {

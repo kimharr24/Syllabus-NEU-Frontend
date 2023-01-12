@@ -19,8 +19,10 @@ interface ToggleButtonGroupProps {
 const ButtonGroupContainer = styled(Stack)`
     && {
         flex-direction: row;
+        flex-wrap: wrap;
         gap: 1rem;
     }
+    margin-bottom: 1rem;
 `;
 
 const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
