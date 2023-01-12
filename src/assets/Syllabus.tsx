@@ -1,5 +1,6 @@
 import { Professor } from './Professor';
 import { Department } from './Department';
+import { Semester } from './Semester';
 
 export interface Syllabus {
     id: number;
@@ -7,6 +8,6 @@ export interface Syllabus {
     department: Department;
     courseNumber: number;
     courseTitle: string;
-    semester: string;
+    semester: Semester;
     syllabusURL: string;
 }
