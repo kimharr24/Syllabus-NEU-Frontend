@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { Stack, Typography } from '@mui/material';
-import Search from '../Search';
+import styled from 'styled-components';
+import { Stack, Typography, Paper } from '@mui/material';
+import ToggleButtonGroup from '../ToggleButtonGroup';
 import { NEU_RED, SECONDARY_COLOR } from '../../utils/colors';
+
+const SearchForm = styled(Paper)`
+    && {
+        background-color: transparent;
+        border-radius: 10px;
+    }
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+`;
 
 const HomeContent: React.FC = () => {
     const [selectedColor, setSelectedColor] = useState(NEU_RED);
@@ -20,7 +30,9 @@ const HomeContent: React.FC = () => {
                     NEU
                 </Typography>
             </Stack>
-            <Search setSelectedColor={setSelectedColor} />
+            <SearchForm elevation={12}>
+                <ToggleButtonGroup setSelectedColor={setSelectedColor} />
+            </SearchForm>
         </>
     );
 };
