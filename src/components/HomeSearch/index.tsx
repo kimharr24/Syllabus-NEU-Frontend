@@ -18,8 +18,8 @@ const SearchButton = styled(IconButton)`
     && {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
         background-color: ${NEU_RED};
         color: #fff;
     }
@@ -34,8 +34,8 @@ const SearchInput = styled('input')`
 
 const HomeSearch: React.FC = () => {
     const defaultAvailableSemester: Semester = {
-        id: 0,
-        semester: 'Fall 2020',
+        id: -1,
+        semester: 'All Semesters',
     };
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -71,8 +71,8 @@ const HomeSearch: React.FC = () => {
                             PaperProps: { style: { maxHeight: '20vh' } },
                         }}
                         sx={{
-                            borderTopLeftRadius: '10px',
-                            borderBottomLeftRadius: '10px',
+                            borderTopLeftRadius: '5px',
+                            borderBottomLeftRadius: '5px',
                             borderTopRightRadius: 0,
                             borderBottomRightRadius: 0,
                             backgroundColor: '#fff',
