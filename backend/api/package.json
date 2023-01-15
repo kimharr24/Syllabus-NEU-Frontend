@@ -1,0 +1,9 @@
+{
+    "name": "dist",
+    "version": "1.0.0",
+    "description": "transpiled typescript express API",
+    "main": "main.js",
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs"
+}
