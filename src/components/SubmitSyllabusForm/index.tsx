@@ -9,20 +9,42 @@ import {
     DialogTitle,
     Typography,
     Box,
+    Snackbar,
 } from '@mui/material';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const SubmitSyllabusForm: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+});
+
+interface SubmitSyllabusFormProps {
+    handleCloseSyllabusForm: () => void;
+    isOpenSyllabusForm: boolean;
+}
+
+const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
+    handleCloseSyllabusForm,
+    isOpenSyllabusForm,
+}) => {
     const [file, setFile] = useState<File>();
     const [fileName, setFileName] = useState('');
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+    const handleSnackbarOpen = () => setIsSnackbarOpen(true);
+    const handleSnackbarClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string,
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setIsSnackbarOpen(false);
+    };
 
-    const handleClickOpen = () => {
-        setIsModalOpen(true);
-    };
-    const handleClickClose = () => {
-        setIsModalOpen(false);
-    };
     const handleFileSelection = (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
@@ -31,13 +53,14 @@ const SubmitSyllabusForm: React.FC = () => {
         setFile(selectedFile);
         setFileName(selectedFile.name);
     };
+
     const handleFormSubmission = async (
         event: React.FormEvent<HTMLInputElement>,
     ) => {
         event.preventDefault();
 
         if (!file) {
-            setIsModalOpen(false);
+            handleCloseSyllabusForm();
             return;
         }
 
@@ -46,16 +69,13 @@ const SubmitSyllabusForm: React.FC = () => {
         await axios.post('http://localhost:5000/api/post/syllabus', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
-        console.log('file submitted successfully');
-        setIsModalOpen(false);
+        handleCloseSyllabusForm();
+        handleSnackbarOpen();
     };
 
     return (
         <>
-            <Button variant='outlined' onClick={handleClickOpen}>
-                Submit Syllabus
-            </Button>
-            <Dialog open={isModalOpen} onClose={handleClickClose}>
+            <Dialog open={isOpenSyllabusForm} onClose={handleCloseSyllabusForm}>
                 <DialogTitle>Syllabus Submission</DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ marginBottom: '0.5rem' }}>
@@ -94,13 +114,27 @@ const SubmitSyllabusForm: React.FC = () => {
                         </Typography>
                     </Box>
                     <DialogActions>
-                        <Button onClick={handleClickClose}>Cancel</Button>
+                        <Button onClick={handleCloseSyllabusForm}>
+                            Cancel
+                        </Button>
                         <Button type='submit' form='syllabus-submission-form'>
                             Submit
                         </Button>
                     </DialogActions>
                 </DialogContent>
             </Dialog>
+            <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={6000}
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                onClose={handleSnackbarClose}>
+                <Alert
+                    onClose={handleSnackbarClose}
+                    severity='success'
+                    sx={{ width: '100%' }}>
+                    Syllabus Submission Sucessful!
+                </Alert>
+            </Snackbar>
         </>
     );
 };

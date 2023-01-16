@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Box, Stack } from '@mui/material';
 import Hero from '../../assets/hero-image.jpg';
 import HomeContent from '../HomeContent';
+import AdditionalActions from '../AdditionalActions';
 
 const HeroImageContainer = styled(Box)`
     background-image: url('${Hero}');
@@ -25,6 +26,7 @@ const Home: React.FC = () => {
                 <HeroContentContainer>
                     <HomeContent />
                 </HeroContentContainer>
+                <AdditionalActions />
             </HeroImageContainer>
         </main>
     );
