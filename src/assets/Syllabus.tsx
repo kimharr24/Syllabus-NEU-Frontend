@@ -1,13 +1,12 @@
 import { Professor } from './Professor';
-import { Department } from './Department';
-import { Semester } from './Semester';
 
 export interface Syllabus {
     id: number;
+    credits: string;
+    description: string;
     professor: Professor;
-    department: Department;
-    courseNumber: number;
+    courseNumber: string;
     courseTitle: string;
-    semester: Semester;
+    semester: string;
     syllabusURL: string;
 }

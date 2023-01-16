@@ -1,6 +1,4 @@
 export interface Professor {
-    firstName: string;
-    lastName: string;
+    fullName: string;
     email: string;
-    pronouns?: string;
 }
