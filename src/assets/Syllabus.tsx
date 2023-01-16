@@ -1,7 +1,7 @@
 import { Professor } from './Professor';
 
 export interface Syllabus {
-    id: number;
+    id: string;
     credits: string;
     description: string;
     professor: Professor;

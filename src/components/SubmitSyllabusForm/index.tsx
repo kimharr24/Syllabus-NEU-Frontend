@@ -16,6 +16,8 @@ import {
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Syllabus } from '../../assets/Syllabus';
+// eslint-disable-next-line import/no-relative-packages
+import { generateRandomHash } from '../../../backend/utils/generateRandomHash';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -50,7 +52,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     };
 
     const templateSyllabus: Syllabus = {
-        id: -1,
+        id: '',
         credits: '',
         description: '',
         professor: {
@@ -165,6 +167,8 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
             setSyllabus(templateSyllabus);
             return;
         }
+
+        syllabus.id = generateRandomHash();
 
         const formData = new FormData();
         formData.append('pdf-file', file);
