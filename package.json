@@ -13,8 +13,8 @@
     "prettier-fix": "prettier --write src",
     "check": "npm run lint-fix && npm run prettier-fix",
     "prepare": "husky install",
-    "transpile-api": "npx tsc --esModuleInterop --outDir ./backend/dist/transpiled-api ./backend/main.ts",
-    "start-api": "node ./backend/dist/transpiled-api/main.js"
+    "transpile-api": "npx tsc --esModuleInterop --outDir ./backend/api/transpiled-api ./backend/main.ts",
+    "start-api": "node ./backend/api/transpiled-api/main.js"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
