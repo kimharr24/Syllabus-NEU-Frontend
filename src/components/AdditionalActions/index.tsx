@@ -15,10 +15,6 @@ const SpeedDialContainer = styled(Box)`
 `;
 
 const AdditionalActions: React.FC = () => {
-    const [isOpenSpeedDial, setIsOpenSpeedDial] = useState(false);
-    const handleOpenSpeedDial = () => setIsOpenSpeedDial(true);
-    const handleCloseSpeedDial = () => setIsOpenSpeedDial(false);
-
     const [isOpenSyllabusForm, setIsOpenSyllabusForm] = useState(false);
     const handleOpenSyllabusForm = () => setIsOpenSyllabusForm(true);
     const handleCloseSyllabusForm = () => setIsOpenSyllabusForm(false);
@@ -53,9 +49,6 @@ const AdditionalActions: React.FC = () => {
                 <SpeedDial
                     ariaLabel='additional actions'
                     icon={<KeyboardArrowUpOutlinedIcon />}
-                    open={isOpenSpeedDial}
-                    onOpen={handleOpenSpeedDial}
-                    onClose={handleCloseSpeedDial}
                     sx={{
                         '& .MuiFab-primary': {
                             backgroundColor: NEU_RED,
