@@ -3,7 +3,6 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import SyllabusRouter from './routes/SyllabusRouter';
-import example from './middleware/example';
 
 dotenv.config();
 
@@ -14,11 +13,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/api', SyllabusRouter);
 
-app.get('/', example, (req: Request, res: Response) => {
-    res.send('Hello world!!!!');
-});
-
-app.get('/fake', (req, res) => {
+app.get('/fake', (req: Request, res: Response) => {
     res.send({ data: 'some data' });
 });
 
