@@ -5,24 +5,36 @@ import {
     ScanCommand,
 } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
+import { S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { S3Config } from '../utils/S3Config';
 import { DynamoConfig } from '../utils/DynamoConfig';
 import validateDynamoVariables from '../utils/validateDynamoVariables';
-import { generateDecimalHash } from '../utils/generateRandomHash';
+import validateBucketVariables from '../utils/validateBucketVariables';
 
 const router: Router = Router();
-const configs: DynamoConfig = validateDynamoVariables();
+const dynamoConfigs: DynamoConfig = validateDynamoVariables();
+const s3Configs: S3Config = validateBucketVariables();
 
 const dynamo = new DynamoDBClient({
-    region: configs.dynamoRegion,
+    region: dynamoConfigs.dynamoRegion,
     credentials: {
-        accessKeyId: configs.dynamoAccessKey,
-        secretAccessKey: configs.dynamoSecretAccessKey,
+        accessKeyId: dynamoConfigs.dynamoAccessKey,
+        secretAccessKey: dynamoConfigs.dynamoSecretAccessKey,
+    },
+});
+
+const s3 = new S3Client({
+    region: s3Configs.bucketRegion,
+    credentials: {
+        accessKeyId: s3Configs.bucketAccessKey,
+        secretAccessKey: s3Configs.bucketSecretAccessKey,
     },
 });
 
 router.get('/dynamo/objects', async (req: Request, res: Response) => {
     const params = {
-        TableName: configs.dynamoTableName,
+        TableName: dynamoConfigs.dynamoTableName,
     };
     const command = new ScanCommand(params);
     const dynamoOutput = await dynamo.send(command);
@@ -32,15 +44,27 @@ router.get('/dynamo/objects', async (req: Request, res: Response) => {
         unmarshall(record),
     );
 
-    res.send(unmarshalledObjects);
+    if (marshalledObjectArray.length > 0) {
+        res.send(unmarshalledObjects);
+    } else {
+        res.send([]);
+    }
 });
 
 router.post('/dynamo/objects', async (req: Request, res: Response) => {
     const params = {
-        TableName: configs.dynamoTableName,
+        TableName: dynamoConfigs.dynamoTableName,
         Item: marshall({
-            id: generateDecimalHash(),
-            fake: 'some fake data',
+            id: req.body.id,
+            credits: req.body.credits,
+            description: req.body.description,
+            professor: {
+                fullName: req.body.professor.fullName,
+                email: req.body.professor.email,
+            },
+            courseNumber: req.body.courseNumber,
+            courseTitle: req.body.courseTitle,
+            semester: req.body.semester,
         }),
     };
 

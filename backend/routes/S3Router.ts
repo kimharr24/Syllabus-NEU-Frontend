@@ -20,10 +20,12 @@ router.get('/syllabi', (req: Request, res: Response) => {
     res.send('Here are all the syllabi!');
 });
 
-router.post('/post/s3', mountPDF, async (req: Request, res: Response) => {
+router.post('/s3/objects', mountPDF, async (req: Request, res: Response) => {
+    const key = generateHexHash();
+
     const params = {
         Bucket: configs.bucketName,
-        Key: generateHexHash(),
+        Key: key,
         Body: req.file?.buffer,
         ContentType: req.file?.mimetype,
     };
@@ -32,7 +34,7 @@ router.post('/post/s3', mountPDF, async (req: Request, res: Response) => {
     await s3.send(command);
 
     res.status(201);
-    res.send({ url: '' });
+    res.send({ objectKey: key });
 });
 
 export default router;

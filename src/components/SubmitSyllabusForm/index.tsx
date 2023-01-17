@@ -155,22 +155,57 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         setFileName(selectedFile.name);
     };
 
+    const uploadToS3Bucket = async (fileToUpload: File): Promise<string> => {
+        const formData = new FormData();
+        formData.append('pdf-file', fileToUpload);
+        const { data } = await axios.post(
+            'http://localhost:5000/api/s3/objects',
+            formData,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            },
+        );
+
+        return data.objectKey;
+    };
+
+    const uploadToDynamoDB = async (key: string, formData: Syllabus) => {
+        const keyObject = {
+            id: key,
+        };
+        const params = JSON.stringify(merge(formData, keyObject));
+
+        await axios.post('http://localhost:5000/api/dynamo/objects', params, {
+            headers: { 'Content-Type': 'application/json' },
+        });
+    };
+
     const handleFormSubmission = async (
         event: React.FormEvent<HTMLInputElement>,
     ) => {
         event.preventDefault();
-
+        // Add checks to ensure that all fields are filled in syllabus state
         if (!file) {
             handleCloseSyllabusForm();
             setSyllabus(templateSyllabus);
+            // also reset the file and filename on exit
             return;
         }
 
-        const formData = new FormData();
-        formData.append('pdf-file', file);
-        await axios.post('http://localhost:5000/api/post/s3', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        const key = await uploadToS3Bucket(file);
+        await uploadToDynamoDB(key, syllabus);
+
+        // const { data } = await axios.get(
+        //     'http://localhost:5000/api/dynamo/objects',
+        // );
+
+        // console.log(data);
+
+        // const formData = new FormData();
+        // await axios.post('http://localhost:5000/api/dynamo/objects', formData, {
+        //     headers: { 'Content-Type': 'multipart/form-data' },
+        // });
+
         handleCloseSyllabusForm();
         handleSnackbarOpen();
     };
@@ -248,9 +283,8 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             label='Course Description'
                             variant='outlined'
                             multiline
-                            fullWidth
                             maxRows={5}
-                            sx={{ margin: '0 1rem 1rem 0' }}
+                            sx={{ width: '93%', margin: '0 1rem 1rem 0' }}
                         />
                         <label htmlFor='pdf-upload'>
                             <input
