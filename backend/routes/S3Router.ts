@@ -32,7 +32,7 @@ router.post('/post/s3', mountPDF, async (req: Request, res: Response) => {
     await s3.send(command);
 
     res.status(201);
-    res.send({});
+    res.send({ url: '' });
 });
 
 export default router;

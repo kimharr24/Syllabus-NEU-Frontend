@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { marshall } from '@aws-sdk/util-dynamodb';
 import { DynamoConfig } from '../utils/DynamoConfig';
 import validateDynamoVariables from '../utils/validateDynamoVariables';
 import { generateDecimalHash } from '../utils/generateRandomHash';
@@ -15,15 +16,13 @@ const dynamo = new DynamoDBClient({
     },
 });
 
-router.post('/post/dynamo', async (req: Request, res: Response) => {
+router.post('/dynamo/objects', async (req: Request, res: Response) => {
     const params = {
         TableName: configs.dynamoTableName,
-        Item: {
-            id: {
-                N: generateDecimalHash(),
-            },
-            person: { S: 'hello' },
-        },
+        Item: marshall({
+            id: generateDecimalHash(),
+            fake: 'some fake data',
+        }),
     };
 
     const command = new PutItemCommand(params);
