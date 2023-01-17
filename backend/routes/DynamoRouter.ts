@@ -1,6 +1,10 @@
 import { Router, Request, Response } from 'express';
-import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
-import { marshall } from '@aws-sdk/util-dynamodb';
+import {
+    DynamoDBClient,
+    PutItemCommand,
+    ScanCommand,
+} from '@aws-sdk/client-dynamodb';
+import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { DynamoConfig } from '../utils/DynamoConfig';
 import validateDynamoVariables from '../utils/validateDynamoVariables';
 import { generateDecimalHash } from '../utils/generateRandomHash';
@@ -14,6 +18,21 @@ const dynamo = new DynamoDBClient({
         accessKeyId: configs.dynamoAccessKey,
         secretAccessKey: configs.dynamoSecretAccessKey,
     },
+});
+
+router.get('/dynamo/objects', async (req: Request, res: Response) => {
+    const params = {
+        TableName: configs.dynamoTableName,
+    };
+    const command = new ScanCommand(params);
+    const dynamoOutput = await dynamo.send(command);
+
+    const marshalledObjectArray = dynamoOutput.Items ?? [];
+    const unmarshalledObjects = marshalledObjectArray.map((record) =>
+        unmarshall(record),
+    );
+
+    res.send(unmarshalledObjects);
 });
 
 router.post('/dynamo/objects', async (req: Request, res: Response) => {
