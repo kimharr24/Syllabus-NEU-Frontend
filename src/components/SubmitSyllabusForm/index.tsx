@@ -180,6 +180,13 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         });
     };
 
+    const getDynamoDBItems = async () => {
+        const { data } = await axios.get(
+            'http://localhost:5000/api/dynamo/objects',
+        );
+        console.log(data);
+    };
+
     const handleFormSubmission = async (
         event: React.FormEvent<HTMLInputElement>,
     ) => {
@@ -194,6 +201,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
 
         const key = await uploadToS3Bucket(file);
         await uploadToDynamoDB(key, syllabus);
+        await getDynamoDBItems();
 
         // const { data } = await axios.get(
         //     'http://localhost:5000/api/dynamo/objects',

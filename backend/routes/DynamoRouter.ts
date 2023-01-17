@@ -5,7 +5,7 @@ import {
     ScanCommand,
 } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
-import { S3Client } from '@aws-sdk/client-s3';
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { S3Config } from '../utils/S3Config';
 import { DynamoConfig } from '../utils/DynamoConfig';
@@ -43,6 +43,18 @@ router.get('/dynamo/objects', async (req: Request, res: Response) => {
     const unmarshalledObjects = marshalledObjectArray.map((record) =>
         unmarshall(record),
     );
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const object of unmarshalledObjects) {
+        const getS3ObjectParams = {
+            Bucket: s3Configs.bucketName,
+            Key: object.id,
+        };
+        const s3Command = new GetObjectCommand(getS3ObjectParams);
+        // eslint-disable-next-line no-await-in-loop
+        const url = await getSignedUrl(s3, s3Command, { expiresIn: 600 });
+        object.syllabusURL = url;
+    }
 
     if (marshalledObjectArray.length > 0) {
         res.send(unmarshalledObjects);
