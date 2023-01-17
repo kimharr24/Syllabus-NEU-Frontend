@@ -3,7 +3,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { S3Config } from '../utils/S3Config';
 import validateBucketVariables from '../utils/validateBucketVariables';
 import mountPDF from '../middleware/mountPDF';
-import { generateRandomHash } from '../utils/generateRandomHash';
+import { generateHexHash } from '../utils/generateRandomHash';
 
 const router: Router = Router();
 const configs: S3Config = validateBucketVariables();
@@ -20,10 +20,10 @@ router.get('/syllabi', (req: Request, res: Response) => {
     res.send('Here are all the syllabi!');
 });
 
-router.post('/post/syllabus', mountPDF, async (req: Request, res: Response) => {
+router.post('/post/s3', mountPDF, async (req: Request, res: Response) => {
     const params = {
         Bucket: configs.bucketName,
-        Key: generateRandomHash(),
+        Key: generateHexHash(),
         Body: req.file?.buffer,
         ContentType: req.file?.mimetype,
     };

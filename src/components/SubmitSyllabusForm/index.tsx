@@ -16,8 +16,6 @@ import {
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Syllabus } from '../../assets/Syllabus';
-// eslint-disable-next-line import/no-relative-packages
-import { generateRandomHash } from '../../../backend/utils/generateRandomHash';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -168,11 +166,9 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
             return;
         }
 
-        syllabus.id = generateRandomHash();
-
         const formData = new FormData();
         formData.append('pdf-file', file);
-        await axios.post('http://localhost:5000/api/post/syllabus', formData, {
+        await axios.post('http://localhost:5000/api/post/s3', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
         handleCloseSyllabusForm();
