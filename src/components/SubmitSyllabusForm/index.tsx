@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import merge from 'ts-deepmerge';
 import {
     Button,
@@ -16,6 +15,11 @@ import {
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Syllabus } from '../../assets/Syllabus';
+import {
+    uploadToS3Bucket,
+    uploadToDynamoDB,
+    getDynamoDBItems,
+} from '../../utils/backendRequests';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -155,38 +159,6 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         setFileName(selectedFile.name);
     };
 
-    const uploadToS3Bucket = async (fileToUpload: File): Promise<string> => {
-        const formData = new FormData();
-        formData.append('pdf-file', fileToUpload);
-        const { data } = await axios.post(
-            'http://localhost:5000/api/s3/objects',
-            formData,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            },
-        );
-
-        return data.objectKey;
-    };
-
-    const uploadToDynamoDB = async (key: string, formData: Syllabus) => {
-        const keyObject = {
-            id: key,
-        };
-        const params = JSON.stringify(merge(formData, keyObject));
-
-        await axios.post('http://localhost:5000/api/dynamo/objects', params, {
-            headers: { 'Content-Type': 'application/json' },
-        });
-    };
-
-    const getDynamoDBItems = async () => {
-        const { data } = await axios.get(
-            'http://localhost:5000/api/dynamo/objects',
-        );
-        console.log(data);
-    };
-
     const handleFormSubmission = async (
         event: React.FormEvent<HTMLInputElement>,
     ) => {
@@ -202,17 +174,6 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         const key = await uploadToS3Bucket(file);
         await uploadToDynamoDB(key, syllabus);
         await getDynamoDBItems();
-
-        // const { data } = await axios.get(
-        //     'http://localhost:5000/api/dynamo/objects',
-        // );
-
-        // console.log(data);
-
-        // const formData = new FormData();
-        // await axios.post('http://localhost:5000/api/dynamo/objects', formData, {
-        //     headers: { 'Content-Type': 'multipart/form-data' },
-        // });
 
         handleCloseSyllabusForm();
         handleSnackbarOpen();
@@ -324,7 +285,6 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onClick={() => {
                                 handleCloseSyllabusForm();
                                 setSyllabus(templateSyllabus);
-                                console.log(syllabus);
                             }}>
                             Cancel
                         </Button>

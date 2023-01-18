@@ -8,7 +8,7 @@ import DynamoRouter from './routes/DynamoRouter';
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.API_PORT || 4000;
+const API_PORT = process.env.API_PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +19,6 @@ app.get('/fake', (req: Request, res: Response) => {
     res.send({ data: 'some data' });
 });
 
-app.listen(port, () => {
-    console.log(`App is listening on port ${port}.`);
+app.listen(API_PORT, () => {
+    console.log(`App is listening on port ${API_PORT}.`);
 });
