@@ -1,5 +1,10 @@
 import { Router, Request, Response } from 'express';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+    S3Client,
+    PutObjectCommand,
+    GetObjectCommand,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { S3Config } from '../utils/S3Config';
 import validateBucketVariables from '../utils/validateBucketVariables';
 import mountPDF from '../middleware/mountPDF';
@@ -16,9 +21,19 @@ const s3 = new S3Client({
     },
 });
 
-router.get('/syllabi', (req: Request, res: Response) => {
-    res.send('Here are all the syllabi!');
-});
+router.get(
+    '/s3/objects/unsignedURL/:id',
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const params = {
+            Bucket: configs.bucketName,
+            Key: id,
+        };
+        const command = new GetObjectCommand(params);
+        const url = await getSignedUrl(s3, command, { expiresIn: 600 });
+        res.send(url);
+    },
+);
 
 router.post('/s3/objects', mountPDF, async (req: Request, res: Response) => {
     const key = generateHexHash();

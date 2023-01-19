@@ -31,10 +31,16 @@ export const uploadToDynamoDB = async (key: string, formData: Syllabus) => {
     );
 };
 
+export const getUnsignedURL = async (key: string) => {
+    const { data } = await axios.get(
+        `http://localhost:${API_PORT}/api/s3/objects/unsignedURL/${key}`,
+    );
+    return data;
+};
+
 export const getDynamoDBItems = async () => {
     const { data } = await axios.get(
         `http://localhost:${API_PORT}/api/dynamo/objects`,
     );
-    console.log(data.syllabusURL);
     return data;
 };

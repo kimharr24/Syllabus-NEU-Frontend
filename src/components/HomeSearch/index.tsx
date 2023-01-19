@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import {
     Paper,
@@ -37,6 +38,7 @@ const HomeSearch: React.FC = () => {
         id: -1,
         semester: 'All Semesters',
     };
+    const navigate = useNavigate();
 
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSemester, setSelectedSemester] = useState(
@@ -52,6 +54,11 @@ const HomeSearch: React.FC = () => {
 
     const handleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
+    };
+
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        navigate(`/search/${selectedSemester}/${searchQuery}`);
     };
 
     useEffect(() => {
@@ -94,7 +101,7 @@ const HomeSearch: React.FC = () => {
                 elevation={0}
                 component='form'
                 sx={{ width: '50%', paddingLeft: '10px', borderRadius: 0 }}
-                onSubmit={() => {}}>
+                onSubmit={handleSearch}>
                 <SearchInput
                     value={searchQuery}
                     onChange={handleSearchQuery}

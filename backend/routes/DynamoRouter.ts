@@ -44,18 +44,6 @@ router.get('/dynamo/objects', async (req: Request, res: Response) => {
         unmarshall(record),
     );
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const object of unmarshalledObjects) {
-        const getS3ObjectParams = {
-            Bucket: s3Configs.bucketName,
-            Key: object.id,
-        };
-        const s3Command = new GetObjectCommand(getS3ObjectParams);
-        // eslint-disable-next-line no-await-in-loop
-        const url = await getSignedUrl(s3, s3Command, { expiresIn: 600 });
-        object.syllabusURL = url;
-    }
-
     if (marshalledObjectArray.length > 0) {
         res.send(unmarshalledObjects);
     } else {
@@ -77,6 +65,7 @@ router.post('/dynamo/objects', async (req: Request, res: Response) => {
             courseNumber: req.body.courseNumber,
             courseTitle: req.body.courseTitle,
             semester: req.body.semester,
+            syllabusURL: '',
         }),
     };
 
