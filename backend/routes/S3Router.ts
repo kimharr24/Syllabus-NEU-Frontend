@@ -30,7 +30,7 @@ router.get(
             Key: id,
         };
         const command = new GetObjectCommand(params);
-        const url = await getSignedUrl(s3, command, { expiresIn: 600 });
+        const url = await getSignedUrl(s3, command, { expiresIn: 300 });
         res.send(url);
     },
 );
