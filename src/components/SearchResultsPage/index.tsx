@@ -6,6 +6,7 @@ import { Syllabus } from '../../assets/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
 import { matchesSearchTerm } from '../../utils/matchesSearchTerm';
 import SearchResult from '../SearchResult';
+import SearchResultsHeader from '../SearchResultsHeader';
 
 const ResultsContainer = styled(Box)`
     margin: 2rem;
@@ -28,23 +29,26 @@ const SearchResultsPage: React.FC = () => {
     }, [semester, searchTerm]);
 
     return (
-        <ResultsContainer>
-            {searchResults.map((syllabus: Syllabus) => {
-                return (
-                    <SearchResult
-                        id={syllabus.id}
-                        key={syllabus.id}
-                        credits={syllabus.credits}
-                        description={syllabus.description}
-                        professor={syllabus.professor}
-                        courseNumber={syllabus.courseNumber}
-                        courseTitle={syllabus.courseTitle}
-                        semester={syllabus.semester}
-                        syllabusURL={syllabus.syllabusURL}
-                    />
-                );
-            })}
-        </ResultsContainer>
+        <>
+            <SearchResultsHeader />
+            <ResultsContainer>
+                {searchResults.map((syllabus: Syllabus) => {
+                    return (
+                        <SearchResult
+                            id={syllabus.id}
+                            key={syllabus.id}
+                            credits={syllabus.credits}
+                            description={syllabus.description}
+                            professor={syllabus.professor}
+                            courseNumber={syllabus.courseNumber}
+                            courseTitle={syllabus.courseTitle}
+                            semester={syllabus.semester}
+                            syllabusURL={syllabus.syllabusURL}
+                        />
+                    );
+                })}
+            </ResultsContainer>
+        </>
     );
 };
 
