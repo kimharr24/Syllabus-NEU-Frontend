@@ -1,46 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import {
-    Paper,
-    Box,
-    MenuItem,
-    FormControl,
-    Stack,
-    IconButton,
-} from '@mui/material';
+import { Box, MenuItem, FormControl, Stack } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { NEU_RED } from '../../utils/colors';
+import SearchBar from '../SearchBar';
 import { Semester } from '../../assets/Semester';
 import { AvailableSemesters } from '../../assets/AvailableSemesters';
-
-const SearchButton = styled(IconButton)`
-    && {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        background-color: ${NEU_RED};
-        color: #fff;
-    }
-`;
-
-const SearchInput = styled('input')`
-    border: none;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-`;
 
 const HomeSearch: React.FC = () => {
     const defaultAvailableSemester: Semester = {
         id: -1,
         semester: 'All Semesters',
     };
-    const navigate = useNavigate();
 
-    const [searchQuery, setSearchQuery] = useState('');
     const [selectedSemester, setSelectedSemester] = useState(
         defaultAvailableSemester.semester,
     );
@@ -50,15 +20,6 @@ const HomeSearch: React.FC = () => {
 
     const handleSelectedSemester = (event: SelectChangeEvent) => {
         setSelectedSemester(event.target.value);
-    };
-
-    const handleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    };
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        navigate(`/search/${selectedSemester}/${searchQuery}`);
     };
 
     useEffect(() => {
@@ -96,21 +57,7 @@ const HomeSearch: React.FC = () => {
                     </Select>
                 </FormControl>
             </Box>
-            <Paper
-                id='search-query-form'
-                elevation={0}
-                component='form'
-                sx={{ width: '50%', paddingLeft: '10px', borderRadius: 0 }}
-                onSubmit={handleSearch}>
-                <SearchInput
-                    value={searchQuery}
-                    onChange={handleSearchQuery}
-                    placeholder='Class, professor, or course'
-                />
-            </Paper>
-            <SearchButton disableRipple type='submit' form='search-query-form'>
-                <SearchOutlinedIcon />
-            </SearchButton>
+            <SearchBar selectedSemester={selectedSemester} />
         </Stack>
     );
 };

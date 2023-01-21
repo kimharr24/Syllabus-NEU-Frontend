@@ -5,30 +5,17 @@ import {
     ScanCommand,
 } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { S3Config } from '../utils/S3Config';
 import { DynamoConfig } from '../utils/DynamoConfig';
 import validateDynamoVariables from '../utils/validateDynamoVariables';
-import validateBucketVariables from '../utils/validateBucketVariables';
 
 const router: Router = Router();
 const dynamoConfigs: DynamoConfig = validateDynamoVariables();
-const s3Configs: S3Config = validateBucketVariables();
 
 const dynamo = new DynamoDBClient({
     region: dynamoConfigs.dynamoRegion,
     credentials: {
         accessKeyId: dynamoConfigs.dynamoAccessKey,
         secretAccessKey: dynamoConfigs.dynamoSecretAccessKey,
-    },
-});
-
-const s3 = new S3Client({
-    region: s3Configs.bucketRegion,
-    credentials: {
-        accessKeyId: s3Configs.bucketAccessKey,
-        secretAccessKey: s3Configs.bucketSecretAccessKey,
     },
 });
 

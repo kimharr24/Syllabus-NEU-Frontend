@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import S3Router from './routes/S3Router';
@@ -14,10 +14,6 @@ app.use(express.json());
 app.use(cors());
 app.use('/api', S3Router);
 app.use('/api', DynamoRouter);
-
-app.get('/fake', (req: Request, res: Response) => {
-    res.send({ data: 'some data' });
-});
 
 app.listen(API_PORT, () => {
     console.log(`App is listening on port ${API_PORT}.`);
