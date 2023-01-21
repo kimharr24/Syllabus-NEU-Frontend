@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { Box, Paper, Typography, Stack, IconButton } from '@mui/material';
 import { NEU_RED, SECONDARY_COLOR } from '../../utils/colors';
@@ -40,9 +41,17 @@ const SearchButton = styled(IconButton)`
 `;
 
 const SearchResultsHeader: React.FC = () => {
+    const navigate = useNavigate();
+    const selectedSemester = 'All Semesters'; // TODO: Allow selection feature
     const [searchQuery, setSearchQuery] = useState('');
+
     const handleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
+    };
+
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        navigate(`/search/${selectedSemester}/${searchQuery}`);
     };
 
     return (
@@ -73,7 +82,7 @@ const SearchResultsHeader: React.FC = () => {
                         borderRadius: 0,
                         display: 'inline-block',
                     }}
-                    onSubmit={() => {}}>
+                    onSubmit={handleSearch}>
                     <SearchInput
                         value={searchQuery}
                         onChange={handleSearchQuery}
