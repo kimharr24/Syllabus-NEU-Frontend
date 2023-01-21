@@ -1,14 +1,16 @@
 # General
 Syllabus NEU is an independent effort to provide 15,000+ Northeastern University (NEU) undergraduates access to a search catalog of 4,000+ previous NEU class syllabi to assist with course registration. Within a single course, the grading criteria and requirements set out by professors can vary widely, highlighting the need for students to know a class's syllabus before registering for a particular section of the course. Students can help Syllabus NEU by submitting a syllabus and its corresponding course information on Syllabus NEU's homepage for review by an administrator.
+
+<strong>Note:</strong> This website is not currently mobile-responsive. Responsive design will be a top priority in the near future.
 # Development
 ## Overview
-This project is a monorepo containing the client-facing presentation code in `/src/` and a back-end RESTful API concerned with exposing a HTTP interface to the front-end in `/backend/main.ts`. The front-end is designed using React and TypeScript to promote an error-free, maintainable codebase with strongly-typed variables and React components. For standardizing component styling, <a href='https://mui.com/'>Material UI</a> was utilized with <a href='https://github.com/styled-components/styled-components'>styled-components</a> as the CSS-in-JS solution. 
+This project is a monorepo containing the client-facing presentation code in `/src/` and a back-end RESTful API concerned with exposing a HTTP interface to the front-end in `/backend/main.ts`. The front-end is designed using React and TypeScript to promote an error-free, maintainable codebase with strongly-typed variables. For standardizing component styling, <a href='https://mui.com/'>Material UI</a> was utilized with <a href='https://github.com/styled-components/styled-components'>styled-components</a> as the CSS-in-JS solution. 
 
 The back-end was designed using Express and TypeScript to handle all AWS cloud storage uploads and database queries. To run the back-end with Node, a TypeScript to CommonJS transpilation npm script was created as described further below. For storing syllabus PDFs, AWS S3 buckets are employed. The PDF's corresponding course information including fields such as course title, professor, and semester are stored in a DynamoDB table. 
 ## Workflows
 As described in the introduction, students can submit a syllabus to add to Syllabus NEU's database. The process of syllabus submission is as follows:
 <ol>
-    <li>The student fills out all the fields in the syllabus submission form and attaches a PDF of their syllabus (skip to step 3). </li>
+    <li>The student fills out the fields in the syllabus submission form and attaches a PDF of their syllabus (skip to step 3). </li>
     <li>Upon submission, the data is sent to a DynamoDB table storing pending submissions where an administrator can review and modify the submitted information and accept/decline (not yet implemented).</li>
     <li>Once accepted (currently automatically accepted), the syllabus PDF is uploaded to S3 with a randomly generated key identifier. The PDF's corresponding course information is sent to a DynamoDB table with an additional key-value pair holding the randomly generated key identifier used for storing the PDF in S3.</li>
 </ol>
