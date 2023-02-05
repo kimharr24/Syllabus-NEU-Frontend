@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { Syllabus } from '../../assets/Syllabus';
+import { Syllabus } from '../../interfaces/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
 import { matchesSearchTerm } from '../../utils/matchesSearchTerm';
 import SearchResult from '../SearchResult';

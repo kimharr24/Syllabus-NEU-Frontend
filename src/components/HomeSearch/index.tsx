@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, MenuItem, FormControl, Stack } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SearchBar from '../SearchBar';
-import { Semester } from '../../assets/Semester';
+import { Semester } from '../../interfaces/Semester';
 import { AvailableSemesters } from '../../assets/AvailableSemesters';
 
 const HomeSearch: React.FC = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Paper, Box, Typography, Stack, Button } from '@mui/material';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
-import { Syllabus } from '../../assets/Syllabus';
+import { Syllabus } from '../../interfaces/Syllabus';
 import { getUnsignedURL } from '../../utils/backendRequests';
 import { NEU_RED } from '../../utils/colors';
 

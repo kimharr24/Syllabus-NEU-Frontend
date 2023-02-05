@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { Syllabus } from '../assets/Syllabus';
+import { Syllabus } from '../interfaces/Syllabus';
 
 function transformTerm(term: string) {
     return term.toLowerCase().replace(/\s/g, '');

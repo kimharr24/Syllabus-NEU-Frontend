@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { Semester } from './Semester';
+import { Semester } from '../interfaces/Semester';
 
 // Replace with a dynamic approach of querying DynamoDB for available semesters
 export const AvailableSemesters: Semester[] = [

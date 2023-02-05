@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import merge from 'ts-deepmerge';
-import { Syllabus } from '../assets/Syllabus';
+import { Syllabus } from '../interfaces/Syllabus';
 
 const API_PORT = 5000;
 

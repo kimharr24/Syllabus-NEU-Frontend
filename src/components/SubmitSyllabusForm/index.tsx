@@ -14,7 +14,12 @@ import {
 } from '@mui/material';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { Syllabus } from '../../assets/Syllabus';
+import {
+    Syllabus,
+    DefaultSyllabus,
+    isEmptyField,
+    validateSyllabus,
+} from '../../interfaces/Syllabus';
 import {
     uploadToS3Bucket,
     uploadToDynamoDB,
@@ -38,6 +43,8 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     handleCloseSyllabusForm,
     isOpenSyllabusForm,
 }) => {
+    const [formError, setFormError] = useState(false);
+
     const [file, setFile] = useState<File>();
     const [fileName, setFileName] = useState('');
 
@@ -53,21 +60,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         setIsSnackbarOpen(false);
     };
 
-    const templateSyllabus: Syllabus = {
-        id: '',
-        credits: '',
-        description: '',
-        professor: {
-            fullName: '',
-            email: '',
-        },
-        courseNumber: '',
-        courseTitle: '',
-        semester: '',
-        syllabusURL: '',
-    };
-
-    const [syllabus, setSyllabus] = useState<Syllabus>(templateSyllabus);
+    const [syllabus, setSyllabus] = useState<Syllabus>(DefaultSyllabus);
 
     const handleCreditsChange = (
         event: React.ChangeEvent<HTMLInputElement>,
@@ -164,9 +157,14 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     ) => {
         event.preventDefault();
         // Add checks to ensure that all fields are filled in syllabus state
+        if (!validateSyllabus(syllabus)) {
+            setFormError(true);
+            return;
+        }
+
         if (!file) {
             handleCloseSyllabusForm();
-            setSyllabus(templateSyllabus);
+            setSyllabus(DefaultSyllabus);
             // also reset the file and filename on exit
             return;
         }
@@ -200,6 +198,10 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleProfessorFullNameChange}
                             label='Professor Full Name'
                             variant='outlined'
+                            error={
+                                formError &&
+                                isEmptyField(syllabus.professor.fullName)
+                            }
                             sx={{ margin: '0 1rem 1rem 0', width: '45%' }}
                         />
                         <TextField
@@ -208,6 +210,10 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleProfessorEmailChange}
                             label='Professor Email'
                             variant='outlined'
+                            error={
+                                formError &&
+                                isEmptyField(syllabus.professor.email)
+                            }
                             sx={{ margin: '0 1rem 1rem 0', width: '45%' }}
                         />
                         <TextField
@@ -216,6 +222,9 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleCourseNumberChange}
                             label='Course Number'
                             variant='outlined'
+                            error={
+                                formError && isEmptyField(syllabus.courseNumber)
+                            }
                             helperText='e.g. CS3500'
                             sx={{ margin: '0 1rem 1rem 0', width: '40%' }}
                         />
@@ -225,6 +234,9 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleCourseTitleChange}
                             label='Course Title'
                             variant='outlined'
+                            error={
+                                formError && isEmptyField(syllabus.courseTitle)
+                            }
                             helperText='e.g. Object-Oriented Design'
                             sx={{ margin: '0 1rem 1rem 0', width: '50%' }}
                         />
@@ -234,6 +246,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleSemesterChange}
                             label='Course Semester'
                             variant='outlined'
+                            error={formError && isEmptyField(syllabus.semester)}
                             helperText='e.g. Summer 1 2020, Fall 2021'
                             sx={{ margin: '0 1rem 1rem 0', width: '60%' }}
                         />
@@ -243,6 +256,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleCreditsChange}
                             label='Course Credits'
                             variant='outlined'
+                            error={formError && isEmptyField(syllabus.credits)}
                             sx={{ margin: '0 1rem 1rem 0', width: '30%' }}
                         />
                         <TextField
@@ -251,6 +265,9 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             onChange={handleDescriptionChange}
                             label='Course Description'
                             variant='outlined'
+                            error={
+                                formError && isEmptyField(syllabus.description)
+                            }
                             multiline
                             maxRows={5}
                             sx={{ width: '93%', margin: '0 1rem 1rem 0' }}
@@ -284,7 +301,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                         <Button
                             onClick={() => {
                                 handleCloseSyllabusForm();
-                                setSyllabus(templateSyllabus);
+                                setSyllabus(DefaultSyllabus);
                             }}>
                             Cancel
                         </Button>
