@@ -9,11 +9,9 @@ import {
     DialogTitle,
     Typography,
     Box,
-    Snackbar,
     TextField,
 } from '@mui/material';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {
     Syllabus,
     DefaultSyllabus,
@@ -25,14 +23,7 @@ import {
     uploadToDynamoDB,
     getDynamoDBItems,
 } from '../../utils/backendRequests';
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-) {
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
-});
+import StatusAlert from '../StatusAlert';
 
 interface SubmitSyllabusFormProps {
     handleCloseSyllabusForm: () => void;
@@ -156,7 +147,6 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         event: React.FormEvent<HTMLInputElement>,
     ) => {
         event.preventDefault();
-        // Add checks to ensure that all fields are filled in syllabus state
         if (!validateSyllabus(syllabus)) {
             setFormError(true);
             return;
@@ -311,18 +301,12 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                     </DialogActions>
                 </DialogContent>
             </Dialog>
-            <Snackbar
-                open={isSnackbarOpen}
-                autoHideDuration={6000}
-                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                onClose={handleSnackbarClose}>
-                <Alert
-                    onClose={handleSnackbarClose}
-                    severity='success'
-                    sx={{ width: '100%' }}>
-                    Syllabus Submission Sucessful!
-                </Alert>
-            </Snackbar>
+            <StatusAlert
+                isAlertOpen={isSnackbarOpen}
+                handleAlertClose={handleSnackbarClose}
+                alertType='success'>
+                Syllabus Submission Successful!
+            </StatusAlert>
         </>
     );
 };
