@@ -31,6 +31,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     isOpenSyllabusForm,
 }) => {
     const [formError, setFormError] = useState(false);
+    const [fileError, setFileError] = useState(false);
 
     const [file, setFile] = useState<File>();
     const [fileName, setFileName] = useState('');
@@ -152,6 +153,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
 
     const resetFormDefaults = () => {
         setFormError(false);
+        setFileError(false);
         setSyllabus(DefaultSyllabus);
         setFile(undefined);
         setFileName('');
@@ -161,14 +163,14 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         event: React.FormEvent<HTMLInputElement>,
     ) => {
         event.preventDefault();
-        if (!validateSyllabus(syllabus)) {
-            setFormError(true);
-            return;
-        }
 
-        if (!file) {
-            handleCloseSyllabusForm();
-            resetFormDefaults();
+        if (!validateSyllabus(syllabus) || !file) {
+            if (!validateSyllabus(syllabus)) {
+                setFormError(true);
+            }
+            if (!file) {
+                setFileError(true);
+            }
             return;
         }
 
@@ -290,6 +292,14 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                             <Button
                                 variant='outlined'
                                 component='span'
+                                sx={
+                                    fileError && !file
+                                        ? {
+                                              border: '1px solid #d32f2f',
+                                              color: '#d32f2f',
+                                          }
+                                        : {}
+                                }
                                 endIcon={<AttachFileOutlinedIcon />}>
                                 Upload
                             </Button>
