@@ -31,6 +31,14 @@ export const uploadToDynamoDB = async (key: string, formData: Syllabus) => {
     );
 };
 
+export const uploadToS3DynamoPipeline = async (
+    file: File,
+    formData: Syllabus,
+) => {
+    const key = await uploadToS3Bucket(file);
+    await uploadToDynamoDB(key, formData);
+};
+
 export const getUnsignedURL = async (key: string) => {
     const { data } = await axios.get(
         `http://localhost:${API_PORT}/api/s3/objects/unsignedURL/${key}`,

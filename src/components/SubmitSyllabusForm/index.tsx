@@ -18,11 +18,7 @@ import {
     isEmptyField,
     validateSyllabus,
 } from '../../interfaces/Syllabus';
-import {
-    uploadToS3Bucket,
-    uploadToDynamoDB,
-    getDynamoDBItems,
-} from '../../utils/backendRequests';
+import { uploadToS3DynamoPipeline } from '../../utils/backendRequests';
 import StatusAlert from '../StatusAlert';
 
 interface SubmitSyllabusFormProps {
@@ -39,16 +35,27 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     const [file, setFile] = useState<File>();
     const [fileName, setFileName] = useState('');
 
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-    const handleSnackbarOpen = () => setIsSnackbarOpen(true);
-    const handleSnackbarClose = (
+    const [isErrorAlertOpen, setIsErrorAlertOpen] = useState(false);
+    const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+
+    const handleSuccessAlertClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string,
     ) => {
         if (reason === 'clickaway') {
             return;
         }
-        setIsSnackbarOpen(false);
+        setIsSuccessAlertOpen(false);
+    };
+
+    const handleErrorAlertClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string,
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setIsErrorAlertOpen(false);
     };
 
     const [syllabus, setSyllabus] = useState<Syllabus>(DefaultSyllabus);
@@ -143,6 +150,13 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
         setFileName(selectedFile.name);
     };
 
+    const resetFormDefaults = () => {
+        setFormError(false);
+        setSyllabus(DefaultSyllabus);
+        setFile(undefined);
+        setFileName('');
+    };
+
     const handleFormSubmission = async (
         event: React.FormEvent<HTMLInputElement>,
     ) => {
@@ -154,17 +168,20 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
 
         if (!file) {
             handleCloseSyllabusForm();
-            setSyllabus(DefaultSyllabus);
-            // also reset the file and filename on exit
+            resetFormDefaults();
             return;
         }
 
-        const key = await uploadToS3Bucket(file);
-        await uploadToDynamoDB(key, syllabus);
-        await getDynamoDBItems();
-
         handleCloseSyllabusForm();
-        handleSnackbarOpen();
+        resetFormDefaults();
+
+        uploadToS3DynamoPipeline(file, syllabus)
+            .then(() => {
+                setIsSuccessAlertOpen(true);
+            })
+            .catch(() => {
+                setIsErrorAlertOpen(true);
+            });
     };
 
     return (
@@ -291,7 +308,7 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                         <Button
                             onClick={() => {
                                 handleCloseSyllabusForm();
-                                setSyllabus(DefaultSyllabus);
+                                resetFormDefaults();
                             }}>
                             Cancel
                         </Button>
@@ -302,10 +319,16 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                 </DialogContent>
             </Dialog>
             <StatusAlert
-                isAlertOpen={isSnackbarOpen}
-                handleAlertClose={handleSnackbarClose}
+                isAlertOpen={isSuccessAlertOpen}
+                handleAlertClose={handleSuccessAlertClose}
                 alertType='success'>
                 Syllabus Submission Successful!
+            </StatusAlert>
+            <StatusAlert
+                isAlertOpen={isErrorAlertOpen}
+                handleAlertClose={handleErrorAlertClose}
+                alertType='error'>
+                An error occurred, try refreshing the page!
             </StatusAlert>
         </>
     );
