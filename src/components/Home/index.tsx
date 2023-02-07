@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Stack, Typography, Button } from '@mui/material';
 import SearchEngine from '../SearchEngine';
-import Hero from '../../assets/Layer 1.svg';
+import Hero from '../../assets/hero-image.svg';
 import { GRAY } from '../../utils/colors';
 import SubmitSyllabusForm from '../SubmitSyllabusForm';
+import LoginForm from '../LoginForm';
 
 const Home: React.FC = () => {
     const [isSyllabusFormOpen, setIsSyllabusFormOpen] = useState(false);
+    const [isLoginFormOpen, setIsLoginFormOpen] = useState(false);
 
     return (
         <Box sx={{ height: '100vh' }}>
@@ -47,7 +49,10 @@ const Home: React.FC = () => {
                         sx={{ marginRight: '1rem' }}>
                         Submit a Syllabus
                     </Button>
-                    <Button variant='contained' size='large'>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={() => setIsLoginFormOpen(true)}>
                         Sign In
                     </Button>
                 </Box>
@@ -80,6 +85,7 @@ const Home: React.FC = () => {
                         <Button
                             variant='contained'
                             size='large'
+                            onClick={() => setIsLoginFormOpen(true)}
                             sx={{ marginRight: '1rem' }}>
                             Sign In
                         </Button>
@@ -119,6 +125,10 @@ const Home: React.FC = () => {
             <SubmitSyllabusForm
                 isSyllabusFormOpen={isSyllabusFormOpen}
                 handleCloseSyllabusForm={() => setIsSyllabusFormOpen(false)}
+            />
+            <LoginForm
+                isLoginFormOpen={isLoginFormOpen}
+                handleCloseLoginForm={() => setIsLoginFormOpen(false)}
             />
         </Box>
     );

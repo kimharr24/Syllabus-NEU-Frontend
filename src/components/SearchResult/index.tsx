@@ -101,7 +101,8 @@ const SearchResult: React.FC<Syllabus> = ({
                     variant='outlined'
                     onClick={() => window.open(link, '_blank')}
                     startIcon={<PictureAsPdfOutlinedIcon />}
-                    color='primary'>
+                    color='primary'
+                    sx={{ marginTop: { xs: '1rem', md: 0 } }}>
                     Open Syllabus PDF
                 </Button>
             </Stack>
