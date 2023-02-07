@@ -23,12 +23,12 @@ import StatusAlert from '../StatusAlert';
 
 interface SubmitSyllabusFormProps {
     handleCloseSyllabusForm: () => void;
-    isOpenSyllabusForm: boolean;
+    isSyllabusFormOpen: boolean;
 }
 
 const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     handleCloseSyllabusForm,
-    isOpenSyllabusForm,
+    isSyllabusFormOpen,
 }) => {
     const [formError, setFormError] = useState(false);
     const [fileError, setFileError] = useState(false);
@@ -185,10 +185,9 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                 setIsErrorAlertOpen(true);
             });
     };
-
     return (
         <>
-            <Dialog open={isOpenSyllabusForm} onClose={handleCloseSyllabusForm}>
+            <Dialog open={isSyllabusFormOpen} onClose={handleCloseSyllabusForm}>
                 <DialogTitle>Syllabus Submission</DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ marginBottom: '1rem' }}>

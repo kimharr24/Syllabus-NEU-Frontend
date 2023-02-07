@@ -4,19 +4,12 @@ import { Paper, Box, Typography, Stack, Button } from '@mui/material';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import { Syllabus } from '../../interfaces/Syllabus';
 import { getUnsignedURL } from '../../utils/backendRequests';
-import { NEU_RED } from '../../utils/colors';
 
 const ResultHeader = styled(Stack)`
     color: #505050;
     background-color: rgba(0, 0, 0, 0.05);
     padding: 1.5rem;
     justify-content: space-between;
-`;
-
-const AttributeContainer = styled(Stack)`
-    padding: 0 1.5rem 1.5rem 1.5rem;
-    justify-content: space-between;
-    align-items: center;
 `;
 
 const AttributeTypographyDark = styled(Typography)`
@@ -53,7 +46,11 @@ const SearchResult: React.FC<Syllabus> = ({
     }, [id]);
 
     return (
-        <Paper elevation={5} sx={{ marginBottom: '2rem' }}>
+        <Paper
+            elevation={5}
+            sx={{
+                marginBottom: '2rem',
+            }}>
             <ResultHeader direction='row'>
                 <Typography variant='h6'>{`${courseNumber}: ${courseTitle}`}</Typography>
                 <Typography variant='h6'>
@@ -67,7 +64,13 @@ const SearchResult: React.FC<Syllabus> = ({
                     {description}
                 </Typography>
             </Box>
-            <AttributeContainer direction='row'>
+            <Stack
+                sx={{
+                    flexDirection: { xs: 'column', md: 'row' },
+                    justifyContent: { xs: 'flex-start', md: 'space-between' },
+                    alignItems: { xs: 'flex-start', md: 'center' },
+                    padding: '0 1.5rem 1.5rem 1.5rem',
+                }}>
                 <Box>
                     <Box>
                         <AttributeTypographyDark variant='body2'>
@@ -98,18 +101,10 @@ const SearchResult: React.FC<Syllabus> = ({
                     variant='outlined'
                     onClick={() => window.open(link, '_blank')}
                     startIcon={<PictureAsPdfOutlinedIcon />}
-                    disableRipple
-                    sx={{
-                        color: NEU_RED,
-                        border: '1px solid rgba(0, 0, 0, 0.87)',
-                    }}>
-                    <Typography
-                        variant='body1'
-                        sx={{ color: 'rgba(0, 0, 0, 0.87)' }}>
-                        Open Syllabus PDF
-                    </Typography>
+                    color='primary'>
+                    Open Syllabus PDF
                 </Button>
-            </AttributeContainer>
+            </Stack>
         </Paper>
     );
 };

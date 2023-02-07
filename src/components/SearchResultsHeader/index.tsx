@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Box, Paper, Typography, Stack, IconButton } from '@mui/material';
-import { NEU_RED, SECONDARY_COLOR } from '../../utils/colors';
+import { Box, Typography, Stack } from '@mui/material';
+import SearchEngine from '../SearchEngine';
 
 const HeaderContainer = styled(Stack)`
     && {
@@ -12,50 +10,13 @@ const HeaderContainer = styled(Stack)`
     }
 `;
 
-const SearchFormContainer = styled(Box)`
-    border: 1px solid #e2dfdf;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
-    border-top-left-radius: 12px;
-`;
-
-const SearchInput = styled('input')`
-    border: 0;
-    color: rgba(0, 0, 0, 0.6);
-    padding-left: 10px;
-    font-size: 16px;
-    width: 100%;
-    height: 100%;
-`;
-
-const SearchButton = styled(IconButton)`
-    && {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 12px;
-        border-bottom-right-radius: 12px;
-        background-color: ${NEU_RED};
-        color: #fff;
-    }
-`;
-
 const SearchResultsHeader: React.FC = () => {
-    const navigate = useNavigate();
-    const selectedSemester = 'All Semesters'; // TODO: Allow selection feature
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const handleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    };
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        navigate(`/search/${selectedSemester}/${searchQuery}`);
-    };
-
     return (
-        <HeaderContainer direction='row'>
+        <HeaderContainer
+            sx={{
+                flexDirection: { xs: 'column', md: 'row' },
+                alignItems: 'center',
+            }}>
             <Box
                 component='a'
                 href='/'
@@ -63,39 +24,20 @@ const SearchResultsHeader: React.FC = () => {
                 <Stack direction='row'>
                     <Typography
                         variant='h4'
-                        sx={{ color: NEU_RED, marginRight: '0.3rem' }}>
+                        color='primary'
+                        sx={{ fontWeight: 300, marginRight: '0.3rem' }}>
                         Syllabus
                     </Typography>
-                    <Typography variant='h4' sx={{ color: SECONDARY_COLOR }}>
+                    <Typography
+                        variant='h4'
+                        sx={{ fontWeight: 300, color: '#1C3557' }}>
                         NEU
                     </Typography>
                 </Stack>
             </Box>
-            <SearchFormContainer>
-                <Paper
-                    id='search-query-form'
-                    elevation={0}
-                    component='form'
-                    sx={{
-                        width: '35vw',
-                        paddingLeft: '10px',
-                        borderRadius: 0,
-                        display: 'inline-block',
-                    }}
-                    onSubmit={handleSearch}>
-                    <SearchInput
-                        value={searchQuery}
-                        onChange={handleSearchQuery}
-                        placeholder='Search for a class, professor, or course'
-                    />
-                </Paper>
-                <SearchButton
-                    disableRipple
-                    type='submit'
-                    form='search-query-form'>
-                    <SearchOutlinedIcon />
-                </SearchButton>
-            </SearchFormContainer>
+            <Box sx={{ marginTop: { xs: '1rem', md: 0 } }}>
+                <SearchEngine />
+            </Box>
         </HeaderContainer>
     );
 };
