@@ -19,6 +19,9 @@ const SearchInput = styled('input')`
     font-size: 16px;
     width: 100%;
     height: 100%;
+    &:placeholder-shown {
+        text-overflow: ellipsis;
+    }
 `;
 
 const SearchButton = styled(IconButton)`
@@ -32,7 +35,11 @@ const SearchButton = styled(IconButton)`
     }
 `;
 
-const SearchEngine: React.FC = () => {
+interface SearchEngineProps {
+    responsiveWidth: object;
+}
+
+const SearchEngine: React.FC<SearchEngineProps> = ({ responsiveWidth }) => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -52,7 +59,7 @@ const SearchEngine: React.FC = () => {
                 elevation={0}
                 component='form'
                 sx={{
-                    width: '35vw',
+                    width: responsiveWidth,
                     paddingLeft: '10px',
                     borderRadius: 0,
                     display: 'inline-block',

@@ -13,35 +13,47 @@ const Home: React.FC = () => {
     return (
         <Box sx={{ height: '100vh' }}>
             <Stack
-                direction='row'
                 sx={{
-                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    justifyContent: { xs: 'center', lg: 'space-between' },
                     alignItems: 'center',
-                    height: '10%',
-                    padding: '0 2rem 0 2rem',
+                    padding: '1rem 2rem 1rem 2rem',
                 }}>
-                <Stack direction='row'>
-                    <Typography
-                        variant='h4'
+                <Stack
+                    sx={{
+                        flexDirection: { xs: 'column', md: 'row' },
+                        alignItems: { xs: 'center', md: 'flex-start' },
+                    }}>
+                    <Stack
+                        direction='row'
                         sx={{
-                            color: '#1976d2',
-                            marginRight: '0.3rem',
-                            fontWeight: 300,
+                            marginBottom: { xs: '1rem', md: 0 },
                         }}>
-                        Syllabus
-                    </Typography>
-                    <Typography
-                        variant='h4'
-                        sx={{
-                            color: `${GRAY}`,
-                            fontWeight: 300,
-                            marginRight: '2rem',
-                        }}>
-                        NEU
-                    </Typography>
-                    <SearchEngine />
+                        <Typography
+                            variant='h4'
+                            sx={{
+                                color: '#1976d2',
+                                marginRight: '0.3rem',
+                                fontWeight: 300,
+                            }}>
+                            Syllabus
+                        </Typography>
+                        <Typography
+                            variant='h4'
+                            sx={{
+                                color: `${GRAY}`,
+                                fontWeight: 300,
+                                marginRight: { xs: 0, md: '2rem' },
+                            }}>
+                            NEU
+                        </Typography>
+                    </Stack>
+                    <SearchEngine
+                        responsiveWidth={{ xs: '60vw', md: '35vw' }}
+                    />
                 </Stack>
-                <Box>
+
+                <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
                     <Button
                         variant='outlined'
                         size='large'
@@ -58,17 +70,29 @@ const Home: React.FC = () => {
                 </Box>
             </Stack>
             <Stack
-                direction='row'
                 sx={{
+                    flexDirection: { xs: 'column', lg: 'row' },
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     height: '90%',
-                    flexWrap: 'wrap',
                 }}>
-                <Box sx={{ width: '40%', paddingLeft: '10vw' }}>
-                    <Typography variant='h2' sx={{ color: '#20212' }}>
+                <Stack
+                    sx={{
+                        flexDirection: 'column',
+                        alignItems: { xs: 'center', lg: 'flex-start' },
+                        width: { xs: '80%', lg: '40%' },
+                        paddingLeft: { xs: 0, lg: '10vw' },
+                        margin: { xs: '3rem 0 3rem 0', lg: 0 },
+                    }}>
+                    <Typography
+                        variant='h2'
+                        sx={{
+                            color: '#20212',
+                            textAlign: { xs: 'center', lg: 'left' },
+                        }}>
                         Search and access previous Northeastern class syllabuses
                     </Typography>
+
                     <Typography
                         variant='body1'
                         sx={{
@@ -77,16 +101,27 @@ const Home: React.FC = () => {
                             color: '#5f6368',
                             lineHeight: '28px',
                             fontWeight: 400,
+                            textAlign: { xs: 'center', lg: 'left' },
                         }}>
                         Review grading breakdowns, major assignments, and exam
                         dates for classes anytime, anywhere.
                     </Typography>
-                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
+
+                    <Stack
+                        sx={{
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            alignItems: { xs: 'center', sm: 'flex-start' },
+                            marginTop: '2rem',
+                            marginBottom: '2rem',
+                        }}>
                         <Button
                             variant='contained'
                             size='large'
                             onClick={() => setIsLoginFormOpen(true)}
-                            sx={{ marginRight: '1rem' }}>
+                            sx={{
+                                marginRight: { xs: 0, sm: '1rem' },
+                                marginBottom: { xs: '1rem', sm: 0 },
+                            }}>
                             Sign In
                         </Button>
                         <Button
@@ -95,15 +130,19 @@ const Home: React.FC = () => {
                             onClick={() => setIsSyllabusFormOpen(true)}>
                             Submit a Syllabus
                         </Button>
-                    </Box>
-                    <Stack direction='row' sx={{ alignItems: 'center' }}>
+                    </Stack>
+                    <Stack
+                        sx={{
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            alignItems: 'center',
+                        }}>
                         <Typography
                             variant='body2'
                             sx={{
                                 color: '#5f6368',
                                 fontWeight: 400,
                                 fontSize: '1rem',
-                                marginRight: '1rem',
+                                marginRight: { xs: 0, sm: '1rem' },
                             }}>
                             See an issue with this website?
                         </Typography>
@@ -114,11 +153,11 @@ const Home: React.FC = () => {
                             Report a bug
                         </Button>
                     </Stack>
-                </Box>
+                </Stack>
                 <img
                     src={Hero}
                     alt='hero'
-                    style={{ minWidth: '650px', height: '80%' }}
+                    style={{ minWidth: '300px', height: '80%' }}
                 />
                 ;
             </Stack>

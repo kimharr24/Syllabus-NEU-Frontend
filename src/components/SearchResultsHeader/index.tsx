@@ -36,7 +36,7 @@ const SearchResultsHeader: React.FC = () => {
                 </Stack>
             </Box>
             <Box sx={{ marginTop: { xs: '1rem', md: 0 } }}>
-                <SearchEngine />
+                <SearchEngine responsiveWidth={{ xs: '60vw', md: '35vw' }} />
             </Box>
         </HeaderContainer>
     );
