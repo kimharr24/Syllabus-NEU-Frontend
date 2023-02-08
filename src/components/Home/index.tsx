@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Box, Stack, Typography, Button } from '@mui/material';
 import SearchEngine from '../SearchEngine';
 import Hero from '../../assets/hero-image.svg';
-import { GRAY } from '../../utils/colors';
 import SubmitSyllabusForm from '../SubmitSyllabusForm';
 import LoginForm from '../LoginForm';
+import { GRAY } from '../../utils/colors';
 
 const Home: React.FC = () => {
     const [isSyllabusFormOpen, setIsSyllabusFormOpen] = useState(false);
@@ -52,7 +52,6 @@ const Home: React.FC = () => {
                         responsiveWidth={{ xs: '60vw', md: '35vw' }}
                     />
                 </Stack>
-
                 <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
                     <Button
                         variant='outlined'

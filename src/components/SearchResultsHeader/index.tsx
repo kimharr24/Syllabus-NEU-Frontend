@@ -20,7 +20,10 @@ const SearchResultsHeader: React.FC = () => {
             <Box
                 component='a'
                 href='/'
-                sx={{ display: 'inline-block', marginRight: '5vw' }}>
+                sx={{
+                    display: 'inline-block',
+                    marginRight: { xs: 0, md: '2rem' },
+                }}>
                 <Stack direction='row'>
                     <Typography
                         variant='h4'

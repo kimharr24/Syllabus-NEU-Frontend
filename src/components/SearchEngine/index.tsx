@@ -3,6 +3,7 @@ import { IconButton, Box, Paper } from '@mui/material';
 import styled from 'styled-components';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 const SearchEngineContainer = styled(Box)`
     border: 1px solid #e2dfdf;
@@ -41,6 +42,7 @@ interface SearchEngineProps {
 
 const SearchEngine: React.FC<SearchEngineProps> = ({ responsiveWidth }) => {
     const navigate = useNavigate();
+    const theme = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +76,11 @@ const SearchEngine: React.FC<SearchEngineProps> = ({ responsiveWidth }) => {
             <SearchButton
                 type='submit'
                 form='search-query-form'
-                color='primary'>
+                sx={{
+                    '&.MuiButtonBase-root:hover': {
+                        bgcolor: theme.palette.primary.dark,
+                    },
+                }}>
                 <SearchOutlinedIcon />
             </SearchButton>
         </SearchEngineContainer>
