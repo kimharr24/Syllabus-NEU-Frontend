@@ -7,7 +7,11 @@ import { getDynamoDBItems } from '../../utils/backendRequests';
 import { matchesSearchTerm } from '../../utils/matchesSearchTerm';
 import SearchResult from '../SearchResult';
 import SearchResultsHeader from '../SearchResultsHeader';
-import { defaultPage } from '../../utils/pagination';
+import {
+    defaultPage,
+    getNumberOfPages,
+    getCurrentPageResults,
+} from '../../utils/pagination';
 
 const ResultsContainer = styled(Box)`
     margin: 2rem;
@@ -15,14 +19,16 @@ const ResultsContainer = styled(Box)`
 
 const SearchResultsPage: React.FC = () => {
     const { semester = '', searchTerm = '' } = useParams();
-    const [searchResults, setSearchResults] = useState<Syllabus[]>([]);
-    const [currentPage, setCurrentPage] = useState(defaultPage);
+    const [allSearchResults, setAllSearchResults] = useState<Syllabus[]>([]);
+    const [currentPageResults, setCurrentPageResults] = useState<Syllabus[]>(
+        [],
+    );
 
     const handlePageChange = (
         event: React.ChangeEvent<unknown>,
         value: number,
     ) => {
-        setCurrentPage(value);
+        setCurrentPageResults(getCurrentPageResults(allSearchResults, value));
     };
 
     useEffect(() => {
@@ -33,7 +39,10 @@ const SearchResultsPage: React.FC = () => {
                     return matchesSearchTerm(searchTerm, object, semester);
                 },
             );
-            setSearchResults(filteredResults);
+            setAllSearchResults(filteredResults);
+            setCurrentPageResults(
+                getCurrentPageResults(filteredResults, defaultPage),
+            );
         });
     }, [semester, searchTerm]);
 
@@ -41,7 +50,7 @@ const SearchResultsPage: React.FC = () => {
         <>
             <SearchResultsHeader />
             <ResultsContainer>
-                {searchResults.map((syllabus: Syllabus) => {
+                {currentPageResults.map((syllabus: Syllabus) => {
                     return (
                         <SearchResult
                             id={syllabus.id}
@@ -64,7 +73,7 @@ const SearchResultsPage: React.FC = () => {
                     }}>
                     <Pagination
                         color='primary'
-                        count={10}
+                        count={getNumberOfPages(allSearchResults)}
                         size='large'
                         defaultPage={defaultPage}
                         onChange={handlePageChange}
