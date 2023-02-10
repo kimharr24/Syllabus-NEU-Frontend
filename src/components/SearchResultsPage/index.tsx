@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Box } from '@mui/material';
+import { Box, Pagination } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Syllabus } from '../../interfaces/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
 import { matchesSearchTerm } from '../../utils/matchesSearchTerm';
 import SearchResult from '../SearchResult';
 import SearchResultsHeader from '../SearchResultsHeader';
+import { defaultPage } from '../../utils/pagination';
 
 const ResultsContainer = styled(Box)`
     margin: 2rem;
@@ -15,6 +16,14 @@ const ResultsContainer = styled(Box)`
 const SearchResultsPage: React.FC = () => {
     const { semester = '', searchTerm = '' } = useParams();
     const [searchResults, setSearchResults] = useState<Syllabus[]>([]);
+    const [currentPage, setCurrentPage] = useState(defaultPage);
+
+    const handlePageChange = (
+        event: React.ChangeEvent<unknown>,
+        value: number,
+    ) => {
+        setCurrentPage(value);
+    };
 
     useEffect(() => {
         getDynamoDBItems().then((objects: Syllabus[]) => {
@@ -47,6 +56,20 @@ const SearchResultsPage: React.FC = () => {
                         />
                     );
                 })}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                    }}>
+                    <Pagination
+                        color='primary'
+                        count={10}
+                        size='large'
+                        defaultPage={defaultPage}
+                        onChange={handlePageChange}
+                    />
+                </Box>
             </ResultsContainer>
         </>
     );
