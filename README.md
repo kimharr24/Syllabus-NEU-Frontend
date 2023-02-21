@@ -5,7 +5,7 @@ Syllabus NEU is an independent effort to provide 15,000+ Northeastern University
 The following images are examples of fully functional, responsive components designed with React, TypeScript, MUI, and Adobe Illustrator.
 
 ## Landing Page
-![image](./src/assets/landing.png)
+![image](./src/assets/landing.PNG)
 ## Syllabus Submission Form
 ![image](./src/assets/submission-form.PNG)
 ## Search Results
