@@ -4,10 +4,6 @@ import { Semester } from '../interfaces/Semester';
 // Replace with a dynamic approach of querying DynamoDB for available semesters
 export const AvailableSemesters: Semester[] = [
     {
-        id: -1,
-        semester: 'All Semesters',
-    },
-    {
         id: 0,
         semester: 'Fall 2020',
     },

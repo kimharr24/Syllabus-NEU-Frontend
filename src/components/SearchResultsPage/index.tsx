@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Box, Pagination } from '@mui/material';
+import { Box, Stack, Pagination } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Syllabus } from '../../interfaces/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
 import { matchesSearchTerm } from '../../utils/matchesSearchTerm';
 import SearchResult from '../SearchResult';
 import SearchResultsHeader from '../SearchResultsHeader';
+import SearchResultsSidebar from '../SearchResultsSidebar';
 import {
     defaultPage,
     getNumberOfPages,
@@ -49,37 +50,42 @@ const SearchResultsPage: React.FC = () => {
     return (
         <>
             <SearchResultsHeader />
-            <ResultsContainer>
-                {currentPageResults.map((syllabus: Syllabus) => {
-                    return (
-                        <SearchResult
-                            id={syllabus.id}
-                            key={syllabus.id}
-                            credits={syllabus.credits}
-                            description={syllabus.description}
-                            professor={syllabus.professor}
-                            courseNumber={syllabus.courseNumber}
-                            courseTitle={syllabus.courseTitle}
-                            semester={syllabus.semester}
-                            syllabusURL={syllabus.syllabusURL}
-                        />
-                    );
-                })}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                    }}>
-                    <Pagination
-                        color='primary'
-                        count={getNumberOfPages(allSearchResults)}
-                        size='large'
-                        defaultPage={defaultPage}
-                        onChange={handlePageChange}
-                    />
+            <Stack direction='row' sx={{ paddingTop: '74px' }}>
+                <SearchResultsSidebar />
+                <Box sx={{ paddingLeft: { xs: 0, sm: '300px' } }}>
+                    <ResultsContainer>
+                        {currentPageResults.map((syllabus: Syllabus) => {
+                            return (
+                                <SearchResult
+                                    id={syllabus.id}
+                                    key={syllabus.id}
+                                    credits={syllabus.credits}
+                                    description={syllabus.description}
+                                    professor={syllabus.professor}
+                                    courseNumber={syllabus.courseNumber}
+                                    courseTitle={syllabus.courseTitle}
+                                    semester={syllabus.semester}
+                                    syllabusURL={syllabus.syllabusURL}
+                                />
+                            );
+                        })}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                            }}>
+                            <Pagination
+                                color='primary'
+                                count={getNumberOfPages(allSearchResults)}
+                                size='large'
+                                defaultPage={defaultPage}
+                                onChange={handlePageChange}
+                            />
+                        </Box>
+                    </ResultsContainer>
                 </Box>
-            </ResultsContainer>
+            </Stack>
         </>
     );
 };

@@ -5,8 +5,12 @@ import SearchEngine from '../SearchEngine';
 
 const HeaderContainer = styled(Stack)`
     && {
-        padding: 1rem 2rem 1rem 2rem;
         border-bottom: 1px solid #e2dfdf;
+        height: 42px;
+        position: fixed;
+        width: 100%;
+        background-color: #fff;
+        z-index: 10;
     }
 `;
 
@@ -14,14 +18,16 @@ const SearchResultsHeader: React.FC = () => {
     return (
         <HeaderContainer
             sx={{
-                flexDirection: { xs: 'column', md: 'row' },
+                flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: { xs: 'center', md: 'flex-start' },
+                padding: { xs: '16px 0 16px 0', md: '16px 32px 16px 32px' },
             }}>
             <Box
                 component='a'
                 href='/'
                 sx={{
-                    display: 'inline-block',
+                    display: { xs: 'none', md: 'inline-block' },
                     marginRight: { xs: 0, md: '2rem' },
                 }}>
                 <Stack direction='row'>
@@ -38,7 +44,7 @@ const SearchResultsHeader: React.FC = () => {
                     </Typography>
                 </Stack>
             </Box>
-            <Box sx={{ marginTop: { xs: '1rem', md: 0 } }}>
+            <Box>
                 <SearchEngine responsiveWidth={{ xs: '60vw', md: '35vw' }} />
             </Box>
         </HeaderContainer>
