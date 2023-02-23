@@ -1,16 +1,6 @@
 # General
 Syllabus NEU is an independent effort to provide 15,000+ Northeastern University (NEU) undergraduates access to a search catalog of 4,000+ previous NEU class syllabi to assist with course registration. Within a single course, the grading criteria and requirements set out by professors can vary widely, highlighting the need for students to know a class's syllabus before registering for a particular section of the course. Students can help Syllabus NEU by submitting a syllabus and its corresponding course information on Syllabus NEU's homepage for review by an administrator.
 
-# Demonstrations
-The following images are examples of fully functional, responsive components designed with React, TypeScript, MUI, and Adobe Illustrator.
-
-## Landing Page
-![image](./src/assets/landing.PNG)
-## Syllabus Submission Form
-![image](./src/assets/submission-form.PNG)
-## Search Results
-![image](./src/assets/search-results.PNG)
-
 # Development
 ## Overview
 This project is a monorepo containing the client-facing presentation code in `/src/` and a back-end RESTful API concerned with exposing a HTTP interface to the front-end in `/backend/main.ts`. The front-end is designed using React and TypeScript to promote an error-free, maintainable codebase with strongly-typed variables. For standardizing component styling, <a href='https://mui.com/'>Material UI</a> was utilized with <a href='https://github.com/styled-components/styled-components'>styled-components</a> as the CSS-in-JS solution. 

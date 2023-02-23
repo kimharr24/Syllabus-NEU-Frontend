@@ -13,7 +13,7 @@ import {
     MenuItem,
     Switch,
 } from '@mui/material';
-import { AvailableSemesters } from '../../assets/AvailableSemesters';
+import { AvailableSemesters } from '../../utils/AvailableSemesters';
 import { Semester } from '../../interfaces/Semester';
 import Test from '../Test';
 
