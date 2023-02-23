@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Box, Stack, Pagination } from '@mui/material';
+import { Box, Stack, Pagination, Skeleton } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Syllabus } from '../../interfaces/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
@@ -20,6 +20,7 @@ const ResultsContainer = styled(Box)`
 
 const SearchResultsPage: React.FC = () => {
     const { semester = '', searchTerm = '' } = useParams();
+    const [isLoading, setIsLoading] = useState(true);
     const [allSearchResults, setAllSearchResults] = useState<Syllabus[]>([]);
     const [currentPageResults, setCurrentPageResults] = useState<Syllabus[]>(
         [],
@@ -44,6 +45,7 @@ const SearchResultsPage: React.FC = () => {
             setCurrentPageResults(
                 getCurrentPageResults(filteredResults, defaultPage),
             );
+            setIsLoading(false);
         });
     }, [semester, searchTerm]);
 
@@ -52,8 +54,16 @@ const SearchResultsPage: React.FC = () => {
             <SearchResultsHeader />
             <Stack direction='row' sx={{ paddingTop: '74px' }}>
                 <SearchResultsSidebar />
-                <Box sx={{ paddingLeft: { xs: 0, sm: '300px' } }}>
+                <Box
+                    sx={{ paddingLeft: { xs: 0, sm: '300px' }, width: '100%' }}>
                     <ResultsContainer>
+                        {isLoading && (
+                            <Stack gap='2rem'>
+                                <Skeleton variant='rounded' height={300} />
+                                <Skeleton variant='rounded' height={300} />
+                                <Skeleton variant='rounded' height={300} />
+                            </Stack>
+                        )}
                         {currentPageResults.map((syllabus: Syllabus) => {
                             return (
                                 <SearchResult
@@ -75,13 +85,15 @@ const SearchResultsPage: React.FC = () => {
                                 flexDirection: 'row',
                                 justifyContent: 'center',
                             }}>
-                            <Pagination
-                                color='primary'
-                                count={getNumberOfPages(allSearchResults)}
-                                size='large'
-                                defaultPage={defaultPage}
-                                onChange={handlePageChange}
-                            />
+                            {isLoading || (
+                                <Pagination
+                                    color='primary'
+                                    count={getNumberOfPages(allSearchResults)}
+                                    size='large'
+                                    defaultPage={defaultPage}
+                                    onChange={handlePageChange}
+                                />
+                            )}
                         </Box>
                     </ResultsContainer>
                 </Box>
