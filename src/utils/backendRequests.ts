@@ -4,7 +4,7 @@ import merge from 'ts-deepmerge';
 import { Syllabus } from '../interfaces/Syllabus';
 
 const DEV_URL = 'http://localhost:5000';
-const BACKEND_URL = 'https://syllabus-neu-backend.vercel.app/';
+const BACKEND_URL = 'https://syllabus-neu-backend.vercel.app';
 
 export const uploadToS3Bucket = async (fileToUpload: File): Promise<string> => {
     const formData = new FormData();
