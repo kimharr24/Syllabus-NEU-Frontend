@@ -3,9 +3,9 @@ Syllabus NEU is an independent effort to provide 15,000+ Northeastern University
 
 # Development
 ## Overview
-This project is a monorepo containing the client-facing presentation code in `/src/` and a back-end RESTful API concerned with exposing a HTTP interface to the front-end in `/backend/main.ts`. The front-end is designed using React and TypeScript to promote an error-free, maintainable codebase with strongly-typed variables. For standardizing component styling, <a href='https://mui.com/'>Material UI</a> was utilized with <a href='https://github.com/styled-components/styled-components'>styled-components</a> as the CSS-in-JS solution. 
+This project contains the client-facing presentation code in `/src/` and a back-end RESTful API concerned with exposing a HTTP interface to the front-end in a<a href='https://github.com/kimharr24/Syllabus-NEU-Backend'> backend repository</a>. The front-end is designed using React and TypeScript to promote an error-free, maintainable codebase with strongly-typed variables. For standardizing component styling and incorporating responsive design, <a href='https://mui.com/'>Material UI</a> was utilized with <a href='https://github.com/styled-components/styled-components'>styled-components</a> as the CSS-in-JS solution. 
 
-The back-end was designed using Express and TypeScript to handle all AWS cloud storage uploads and database queries. To run the back-end with Node, a TypeScript to CommonJS transpilation npm script was created as described further below. For storing syllabus PDFs, AWS S3 buckets are employed. The PDF's corresponding course information including fields such as course title, professor, and semester are stored in a DynamoDB table. 
+The back-end was designed using Express and TypeScript to handle all AWS cloud storage uploads and database queries. For storing syllabus PDFs, AWS S3 buckets are employed. The PDF's corresponding course information including fields such as course title, professor, and semester are stored in a DynamoDB table. 
 ## Workflows
 As described in the introduction, students can submit a syllabus to add to Syllabus NEU's database. The process of syllabus submission is as follows:
 <ol>
@@ -27,16 +27,16 @@ This project requires NodeJS (<a href="https://nodejs.org/en/download/">latest</
 ```
 npm install
 ```
-in both the root directory and `/backend` to install the dependencies. To start the React front-end application, run 
+to install necessary dependencies. To start the React front-end application, run 
 ```
 npm run dev
 ```
-in a terminal from the root directory. Open up a second terminal and also run
+in a terminal from the root directory. Open up a second terminal and also run the backend repository with 
 ```
-npm run transpile-api
-npm run start-api
+npm run start
 ```
-from the root directory to activate the Express back-end server. The entire back-end is written in TypeScript, which is not interpretable by NodeJS. To resolve this issue, `npm run transpile-api` transpiles the TypeScript code into CommonJS and outputs the transpiled code to `/backend/api/transpiled-api/`.
+
+from the root directory to activate the Express back-end server.
 
 ## Linting
 This project uses <a href="https://www.npmjs.com/package/eslint-config-airbnb-typescript">eslint-config-airbnb-typescript</a> and <a href="https://prettier.io/">prettier</a> for enforcing code style and formatting. For integration with git, <a href="https://typicode.github.io/husky/#/">husky</a> is used for automating code formatting before every commit and works in tandem with <a href="https://github.com/conventional-changelog/commitlint">commitlint</a> to lint commit messages according to the <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commit format</a>. The complete list of configurable commit message rules can be found <a href="https://github.com/conventional-changelog/commitlint/blob/master/docs/reference-rules.md">here</a>. To get started, run the following in the root directory

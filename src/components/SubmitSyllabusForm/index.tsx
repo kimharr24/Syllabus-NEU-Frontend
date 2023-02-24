@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import merge from 'ts-deepmerge';
 import {
     Button,
@@ -20,6 +20,7 @@ import {
 } from '../../interfaces/Syllabus';
 import { uploadToS3DynamoPipeline } from '../../utils/backendRequests';
 import StatusAlert from '../StatusAlert';
+import { MAX_PENDING_SUBMISSIONS } from '../../utils/syllabusSubmission';
 
 interface SubmitSyllabusFormProps {
     handleCloseSyllabusForm: () => void;
@@ -30,6 +31,8 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
     handleCloseSyllabusForm,
     isSyllabusFormOpen,
 }) => {
+    const [numberOfPendingSubmissions, setNumberOfPendingSubmissions] =
+        useState(0);
     const [formError, setFormError] = useState(false);
     const [fileError, setFileError] = useState(false);
 
@@ -38,6 +41,11 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
 
     const [isErrorAlertOpen, setIsErrorAlertOpen] = useState(false);
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+
+    // Enforces hard limit of pending submission count to 50
+    useEffect(() => {
+        setNumberOfPendingSubmissions(50);
+    }, [numberOfPendingSubmissions]);
 
     const handleSuccessAlertClose = (
         event?: React.SyntheticEvent | Event,
@@ -171,6 +179,13 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
             if (!file) {
                 setFileError(true);
             }
+            return;
+        }
+
+        if (numberOfPendingSubmissions >= MAX_PENDING_SUBMISSIONS) {
+            setIsErrorAlertOpen(true);
+            handleCloseSyllabusForm();
+            resetFormDefaults();
             return;
         }
 
@@ -337,7 +352,9 @@ const SubmitSyllabusForm: React.FC<SubmitSyllabusFormProps> = ({
                 isAlertOpen={isErrorAlertOpen}
                 handleAlertClose={handleErrorAlertClose}
                 alertType='error'>
-                An error occurred, try refreshing the page!
+                {numberOfPendingSubmissions >= MAX_PENDING_SUBMISSIONS
+                    ? 'This form is no longer accepting submissions!'
+                    : 'An error occurred, try refreshing the page!'}
             </StatusAlert>
         </>
     );
