@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Box, Stack, Pagination, Skeleton } from '@mui/material';
+import { Box, Stack, Pagination } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Syllabus } from '../../interfaces/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
@@ -13,6 +13,7 @@ import {
     getNumberOfPages,
     getCurrentPageResults,
 } from '../../utils/pagination';
+import SearchResultSkeleton from '../SearchResultSkeleton';
 
 const ResultsContainer = styled(Box)`
     margin: 2rem;
@@ -59,9 +60,9 @@ const SearchResultsPage: React.FC = () => {
                     <ResultsContainer>
                         {isLoading && (
                             <Stack gap='2rem'>
-                                <Skeleton variant='rounded' height={300} />
-                                <Skeleton variant='rounded' height={300} />
-                                <Skeleton variant='rounded' height={300} />
+                                <SearchResultSkeleton />
+                                <SearchResultSkeleton />
+                                <SearchResultSkeleton />
                             </Stack>
                         )}
                         {currentPageResults.map((syllabus: Syllabus) => {
