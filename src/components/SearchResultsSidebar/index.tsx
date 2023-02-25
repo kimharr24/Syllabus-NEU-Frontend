@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { AvailableSemesters } from '../../utils/AvailableSemesters';
 import { Semester } from '../../interfaces/Semester';
-import Test from '../Test';
+import { SUBJECT_DESCRIPTIONS } from '../../utils/completeSubjects';
 
 const SearchResultsSidebar: React.FC = () => {
     const [subject, setSubject] = useState('');
@@ -62,9 +62,17 @@ const SearchResultsSidebar: React.FC = () => {
                             value={subject}
                             onChange={handleChange}
                             label='Subject'>
-                            <MenuItem value='PHYS'>
-                                <Test />
-                            </MenuItem>
+                            {SUBJECT_DESCRIPTIONS.map(
+                                (subjectDescription: string) => {
+                                    return (
+                                        <MenuItem
+                                            key={subjectDescription}
+                                            value={subjectDescription}>
+                                            {subjectDescription}
+                                        </MenuItem>
+                                    );
+                                },
+                            )}
                         </Select>
                     </FormControl>
                 </Box>
@@ -87,6 +95,7 @@ const SearchResultsSidebar: React.FC = () => {
                             onChange={handleCampusChange}
                             label='Campus'>
                             <MenuItem value='Boston Campus'>Boston</MenuItem>
+                            <MenuItem value='Online'>Online</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>

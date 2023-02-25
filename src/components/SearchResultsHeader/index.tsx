@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, Alert } from '@mui/material';
 import SearchEngine from '../SearchEngine';
 
 const HeaderContainer = styled(Stack)`
@@ -47,6 +47,14 @@ const SearchResultsHeader: React.FC = () => {
             <Box>
                 <SearchEngine responsiveWidth={{ xs: '60vw', md: '35vw' }} />
             </Box>
+            <Alert
+                severity='info'
+                sx={{
+                    marginLeft: '2rem',
+                    display: { xs: 'none', lg: 'inherit' },
+                }}>
+                Sidebar functionality is under development!
+            </Alert>
         </HeaderContainer>
     );
 };
