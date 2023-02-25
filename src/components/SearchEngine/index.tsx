@@ -47,6 +47,9 @@ const SearchEngine: React.FC<SearchEngineProps> = ({ responsiveWidth }) => {
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (searchQuery.length === 0) {
+            return;
+        }
         navigate(`/search/All Semesters/${searchQuery}`);
     };
 
