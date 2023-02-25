@@ -3,12 +3,14 @@ import { Box, Stack, Typography, Button } from '@mui/material';
 import SearchEngine from '../SearchEngine';
 import Hero from '../../assets/hero-image.svg';
 import SubmitSyllabusForm from '../SubmitSyllabusForm';
+import BugReportForm from '../BugReportForm';
 import LoginForm from '../LoginForm';
 import { GRAY } from '../../utils/colors';
 
 const Home: React.FC = () => {
     const [isSyllabusFormOpen, setIsSyllabusFormOpen] = useState(false);
     const [isLoginFormOpen, setIsLoginFormOpen] = useState(false);
+    const [isBugReportFormOpen, setIsBugReportFormOpen] = useState(false);
 
     return (
         <Box sx={{ height: '100vh' }}>
@@ -148,6 +150,7 @@ const Home: React.FC = () => {
                         <Button
                             variant='text'
                             size='large'
+                            onClick={() => setIsBugReportFormOpen(true)}
                             sx={{ textTransform: 'none' }}>
                             Report a bug
                         </Button>
@@ -167,6 +170,10 @@ const Home: React.FC = () => {
             <LoginForm
                 isLoginFormOpen={isLoginFormOpen}
                 handleCloseLoginForm={() => setIsLoginFormOpen(false)}
+            />
+            <BugReportForm
+                isBugReportOpen={isBugReportFormOpen}
+                handleCloseBugReport={() => setIsBugReportFormOpen(false)}
             />
         </Box>
     );
