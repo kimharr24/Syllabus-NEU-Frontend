@@ -35,7 +35,7 @@ const SearchResultsSidebar: React.FC = () => {
                 padding: '1rem',
                 backgroundColor: '#f6f6f6',
                 flexDirection: 'column',
-                display: { xs: 'none', sm: 'flex' },
+                display: { xs: 'none', md: 'flex' },
                 position: 'fixed',
                 top: '74px',
                 bottom: 0,

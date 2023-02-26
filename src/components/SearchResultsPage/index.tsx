@@ -14,6 +14,7 @@ import {
     getCurrentPageResults,
 } from '../../utils/pagination';
 import SearchResultSkeleton from '../SearchResultSkeleton';
+import NoSearchResults from '../NoSearchResults';
 
 const ResultsContainer = styled(Box)`
     margin: 2rem;
@@ -56,7 +57,7 @@ const SearchResultsPage: React.FC = () => {
             <Stack direction='row' sx={{ paddingTop: '74px' }}>
                 <SearchResultsSidebar />
                 <Box
-                    sx={{ paddingLeft: { xs: 0, sm: '300px' }, width: '100%' }}>
+                    sx={{ paddingLeft: { xs: 0, md: '300px' }, width: '100%' }}>
                     <ResultsContainer>
                         {isLoading && (
                             <Stack gap='2rem'>
@@ -65,6 +66,17 @@ const SearchResultsPage: React.FC = () => {
                                 <SearchResultSkeleton />
                             </Stack>
                         )}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            {!isLoading && allSearchResults.length === 0 && (
+                                <NoSearchResults searchQuery={searchTerm} />
+                            )}
+                        </Box>
+
                         {currentPageResults.map((syllabus: Syllabus) => {
                             return (
                                 <SearchResult
@@ -86,15 +98,19 @@ const SearchResultsPage: React.FC = () => {
                                 flexDirection: 'row',
                                 justifyContent: 'center',
                             }}>
-                            {isLoading || (
-                                <Pagination
-                                    color='primary'
-                                    count={getNumberOfPages(allSearchResults)}
-                                    size='large'
-                                    defaultPage={defaultPage}
-                                    onChange={handlePageChange}
-                                />
-                            )}
+                            {isLoading ||
+                                (!isLoading &&
+                                    allSearchResults.length === 0) || (
+                                    <Pagination
+                                        color='primary'
+                                        count={getNumberOfPages(
+                                            allSearchResults,
+                                        )}
+                                        size='large'
+                                        defaultPage={defaultPage}
+                                        onChange={handlePageChange}
+                                    />
+                                )}
                         </Box>
                     </ResultsContainer>
                 </Box>

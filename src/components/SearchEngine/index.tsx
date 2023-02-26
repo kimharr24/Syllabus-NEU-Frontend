@@ -11,6 +11,7 @@ const SearchEngineContainer = styled(Box)`
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
     border-top-left-radius: 12px;
+    width: fit-content;
 `;
 
 const SearchInput = styled('input')`
