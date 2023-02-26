@@ -5,6 +5,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    DialogContentText,
     TextField,
     Box,
 } from '@mui/material';
@@ -53,8 +54,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
     return (
         <Dialog open={isLoginFormOpen} onClose={handleCloseLoginForm}>
-            <DialogTitle>Sign Into Syllabus NEU</DialogTitle>
+            <DialogTitle>Syllabus NEU Login</DialogTitle>
             <DialogContent>
+                <DialogContentText sx={{ marginBottom: '1rem' }}>
+                    Welcome back to Syllabus NEU! The login portal currently
+                    only supports users with administrator privileges. Admins
+                    can review pending syllabus submissions and bug reports.
+                </DialogContentText>
                 <Box
                     component='form'
                     id='login-form'
