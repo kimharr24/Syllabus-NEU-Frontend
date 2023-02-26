@@ -74,7 +74,7 @@ const SearchEngine: React.FC<SearchEngineProps> = ({ responsiveWidth }) => {
                 <SearchInput
                     value={searchQuery}
                     onChange={handleSearchQuery}
-                    placeholder='Search for a class, professor, or course'
+                    placeholder='Search for a class, professor, or course (e.g. math)'
                 />
             </Paper>
             <SearchButton
