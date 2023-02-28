@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Box, Stack, Pagination } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { Syllabus } from '../../interfaces/Syllabus';
 import { getDynamoDBItems } from '../../utils/backendRequests';
-import { matchesSearchTerm } from '../../utils/matchesSearchTerm';
 import SearchResult from '../SearchResult';
 import SearchResultsHeader from '../SearchResultsHeader';
 import SearchResultsSidebar from '../SearchResultsSidebar';
@@ -38,11 +38,20 @@ const SearchResultsPage: React.FC = () => {
     useEffect(() => {
         getDynamoDBItems().then((objects: Syllabus[]) => {
             const unfilteredSearchResults: Syllabus[] = objects;
-            const filteredResults = unfilteredSearchResults.filter(
-                (object: Syllabus) => {
-                    return matchesSearchTerm(searchTerm, object, semester);
-                },
-            );
+            const fuse = new Fuse(unfilteredSearchResults, {
+                keys: [
+                    'description',
+                    'professor.fullName',
+                    'courseNumber',
+                    'courseTitle',
+                ],
+                includeScore: true,
+                threshold: 0.6,
+            });
+            const filteredResults = fuse
+                .search(searchTerm)
+                .map((result) => result.item);
+
             setAllSearchResults(filteredResults);
             setCurrentPageResults(
                 getCurrentPageResults(filteredResults, defaultPage),
